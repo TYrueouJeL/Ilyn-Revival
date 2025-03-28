@@ -2,7 +2,10 @@ const { Events } = require('discord.js');
 
 module.exports = {
     name: Events.MessageCreate,
+
     run(client, message)  {
+        if (message.author.bot) return;
+
         const prefix = '!';
 
         if (!message.content.startsWith(prefix)) return;
@@ -19,6 +22,12 @@ module.exports = {
             return;
         }
 
-        command.run(client, message);
+        try {
+            command.run(client, message);
+        }
+        catch (error) {
+            console.error('Erreur lors de l\'exécution de la commande:', error);
+            message.reply('Une erreur est survenue lors de l\'exécution de la commande.');
+        }
     }
 }
