@@ -9,14 +9,17 @@ CREATE TABLE DiscordUser(
 );
 
 CREATE TABLE Class(
-   IdClass INT,
+   IdClass INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
+   HealthPoints INT,
+   Attack INT,
+   Defense INT,
    PRIMARY KEY(IdClass)
 );
 
 CREATE TABLE Ability(
-   IdAbility INT,
+   IdAbility INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
    Damage INT,
@@ -26,16 +29,16 @@ CREATE TABLE Ability(
 );
 
 CREATE TABLE Enemy(
-   IdEnemy INT,
+   IdEnemy INT AUTO_INCREMENT,
    Name VARCHAR(50),
    HealthPoints INT,
    Attack INT,
-   Defence INT,
+   Defense INT,
    PRIMARY KEY(IdEnemy)
 );
 
 CREATE TABLE City(
-   IdCity INT,
+   IdCity INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
    RequiredLevel INT,
@@ -43,7 +46,7 @@ CREATE TABLE City(
 );
 
 CREATE TABLE Region(
-   IdRegion INT,
+   IdRegion INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
    RequiredLevel INT,
@@ -51,9 +54,10 @@ CREATE TABLE Region(
 );
 
 CREATE TABLE Place(
-   IdPlace INT,
+   IdPlace INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
+   Location DECIMAL(6,3),
    IdRegion INT NOT NULL,
    IdCity INT,
    PRIMARY KEY(IdPlace),
@@ -62,7 +66,7 @@ CREATE TABLE Place(
 );
 
 CREATE TABLE Item(
-   IdItem INT,
+   IdItem INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Description VARCHAR(50),
    BuyPrice INT,
@@ -74,47 +78,56 @@ CREATE TABLE Item(
    PRIMARY KEY(IdItem)
 );
 
-CREATE TABLE Trade(
-   IdTrade INT,
-   IdPlace INT NOT NULL,
-   IdItem INT NOT NULL,
-   PRIMARY KEY(IdTrade),
-   FOREIGN KEY(IdPlace) REFERENCES Place(IdPlace),
-   FOREIGN KEY(IdItem) REFERENCES Item(IdItem)
-);
-
 CREATE TABLE Level(
-   IdLevel INT,
+   IdLevel INT AUTO_INCREMENT,
    Level INT,
    ExperienceRequired DECIMAL(15,2),
    HealthPointsBonus INT,
    AttackBonus INT,
-   DefenceBonus INT,
+   DefenseBonus INT,
    PRIMARY KEY(IdLevel)
 );
 
+CREATE TABLE Type(
+   IdType INT AUTO_INCREMENT,
+   Type VARCHAR(50),
+   PRIMARY KEY(IdType)
+);
+
+CREATE TABLE TradeableItem(
+   IdTradeableItem INT AUTO_INCREMENT,
+   IdType INT NOT NULL,
+   IdItem INT NOT NULL,
+   PRIMARY KEY(IdTradeableItem),
+   FOREIGN KEY(IdType) REFERENCES Type(IdType),
+   FOREIGN KEY(IdItem) REFERENCES Item(IdItem)
+);
+
 CREATE TABLE Adventurer(
-   IdAdventurer INT,
+   IdAdventurer INT AUTO_INCREMENT,
    Name VARCHAR(50),
    Gold INT,
    Experience DECIMAL(15,2),
    MaxHealthPoints INT,
    HealthPoints INT,
    Attack INT,
-   Defence INT,
+   Defense INT,
    IdPlace INT NOT NULL,
+   IdClass INT NOT NULL,
    IdDiscord VARCHAR(50) NOT NULL,
    PRIMARY KEY(IdAdventurer),
    FOREIGN KEY(IdPlace) REFERENCES Place(IdPlace),
+   FOREIGN KEY(IdClass) REFERENCES Class(IdClass),
    FOREIGN KEY(IdDiscord) REFERENCES DiscordUser(IdDiscord)
 );
 
-CREATE TABLE AdventurerClass(
-   IdAdventurer INT,
-   IdClass INT,
-   PRIMARY KEY(IdAdventurer, IdClass),
-   FOREIGN KEY(IdAdventurer) REFERENCES Adventurer(IdAdventurer),
-   FOREIGN KEY(IdClass) REFERENCES Class(IdClass)
+CREATE TABLE Building(
+   IdBuilding INT AUTO_INCREMENT,
+   Name VARCHAR(50),
+   Description VARCHAR(50),
+   IdType INT NOT NULL,
+   PRIMARY KEY(IdBuilding),
+   FOREIGN KEY(IdType) REFERENCES Type(IdType)
 );
 
 CREATE TABLE ClassAbility(
@@ -157,3 +170,12 @@ CREATE TABLE EnemyLevel(
    FOREIGN KEY(IdEnemy) REFERENCES Enemy(IdEnemy),
    FOREIGN KEY(IdLevel) REFERENCES Level(IdLevel)
 );
+
+CREATE TABLE BuildingPlace(
+   IdPlace INT,
+   IdBuilding INT,
+   PRIMARY KEY(IdPlace, IdBuilding),
+   FOREIGN KEY(IdPlace) REFERENCES Place(IdPlace),
+   FOREIGN KEY(IdBuilding) REFERENCES Building(IdBuilding)
+);
+

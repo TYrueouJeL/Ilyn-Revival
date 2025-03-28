@@ -11,7 +11,7 @@ module.exports = client => {
             const event = require(`../events/${dirs}/${files}`);
 
             client.on(event.name, (...args) => event.run(client, ...args));
-
+            
             count++;
         };
     };
