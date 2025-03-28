@@ -12,6 +12,6 @@ module.exports = {
 Bonjour **${message.author.displayName}** !
 Nous sommes sur le serveur **${message.guild.name}**
 Tu est sur ce serveur depuis le \`${formattedDate}\`
-            `)
+        `)
     }
 }
