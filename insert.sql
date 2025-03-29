@@ -193,7 +193,7 @@ INSERT INTO Adventurer (IdDiscord, Gold, Experience, IdPlace, IdPersonage) VALUE
 ('discord_2', 1500, 300, 2, 2),
 ('discord_3', 2000, 400, 3, 3),
 ('discord_4', 2500, 500, 4, 4),
-('discord_5', 3000, 600, 5, 5),
+('discord_5', 3000, 600, 5, 5),%
 ('discord_6', 3500, 700, 6, 6),
 ('discord_7', 4000, 800, 7, 7),
 ('discord_8', 4500, 900, 8, 8),

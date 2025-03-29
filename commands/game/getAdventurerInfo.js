@@ -1,4 +1,5 @@
 const connection = require('../../events/database/connection');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'getAdventurerInfo',
@@ -51,16 +52,24 @@ WHERE adventurer.IdDiscord = ?
                 }
 
                 const adventurerInfo = result[0];
-                message.reply(`
-Voici vos informations d'aventurier :
-${adventurerInfo.Name} (${adventurerInfo.ClassName})
-Niveau : ${adventurerInfo.AdventurerLevel}
-Points d'expérience : ${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}
-Points de vie : ${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints}
-Dégâts : ${adventurerInfo.Attack}
-Défense : ${adventurerInfo.Defense}
-Gold : ${adventurerInfo.Gold}
-                `);
+
+                const adventurerEmbed = new EmbedBuilder()
+                    .setColor('Aqua')
+                    .setTitle(adventurerInfo.Name)
+                    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
+                    .setDescription(`Voici vos informations d'aventurier :`)
+                    .setThumbnail(message.author.displayAvatarURL())
+                    .addFields(
+                        { name: 'Classe', value: adventurerInfo.ClassName, inline: true },
+                        { name: 'Points de vie', value: `${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints}`, inline: true },
+                        { name: 'Dégâts', value: `${adventurerInfo.Attack}`, inline: true },
+                        { name: 'Défense', value: `${adventurerInfo.Defense}`, inline: true },
+                        { name: 'Gold', value: `${adventurerInfo.Gold}`, inline: true },
+                        { name: 'Niveau', value: `${adventurerInfo.AdventurerLevel}`, inline: true },
+                        { name: 'Points d\'expérience', value: `${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}`, inline: true },
+                    )
+                
+                message.channel.send({ embeds: [adventurerEmbed] });
             });
         })
     }
