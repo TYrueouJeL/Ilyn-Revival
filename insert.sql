@@ -189,7 +189,7 @@ INSERT INTO Companion (IdCompanion, Experience, IdPersonage) VALUES
 
 -- Insert data into Adventurer table
 INSERT INTO Adventurer (IdDiscord, Gold, Experience, IdPlace, IdPersonage) VALUES
-('discord_1', 1000, 200, 1, 1),
+('540924250312409091', 1000, 200, 1, 1),
 ('discord_2', 1500, 300, 2, 2),
 ('discord_3', 2000, 400, 3, 3),
 ('discord_4', 2500, 500, 4, 4),
@@ -198,7 +198,7 @@ INSERT INTO Adventurer (IdDiscord, Gold, Experience, IdPlace, IdPersonage) VALUE
 ('discord_7', 4000, 800, 7, 7),
 ('discord_8', 4500, 900, 8, 8),
 ('discord_9', 5000, 1000, 9, 9),
-('discord_10', 5500, 1100, 10, 10);
+('5409242503124090910', 5500, 1100, 10, 10);
 
 -- Insert data into Ability table
 INSERT INTO Ability (IdAbility, Name, Description, Damage, Regen, Shield, IdLevel, IdClass) VALUES
@@ -241,7 +241,7 @@ INSERT INTO Building (IdBuilding, Name, Description, IdType) VALUES
 
 -- Insert data into Inventory table
 INSERT INTO Inventory (IdInventory, Quantity, IdDiscord, IdItem) VALUES
-(1, 2, 'discord_1', 1),
+(1, 2, '540924250312409091', 1),
 (2, 3, 'discord_2', 2),
 (3, 1, 'discord_3', 3),
 (4, 5, 'discord_4', 4),
@@ -250,7 +250,7 @@ INSERT INTO Inventory (IdInventory, Quantity, IdDiscord, IdItem) VALUES
 (7, 2, 'discord_7', 7),
 (8, 3, 'discord_8', 8),
 (9, 1, 'discord_9', 9),
-(10, 5, 'discord_10', 10);
+(10, 5, '5409242503124090910', 10);
 
 -- Insert data into BuildingPlace table
 INSERT INTO BuildingPlace (IdPlace, IdBuilding) VALUES
@@ -267,7 +267,7 @@ INSERT INTO BuildingPlace (IdPlace, IdBuilding) VALUES
 
 -- Insert data into AdventurerCompanion table
 INSERT INTO AdventurerCompanion (IdDiscord, IdCompanion) VALUES
-('discord_1', 1),
+('540924250312409091', 1),
 ('discord_2', 2),
 ('discord_3', 3),
 ('discord_4', 4),
@@ -276,4 +276,4 @@ INSERT INTO AdventurerCompanion (IdDiscord, IdCompanion) VALUES
 ('discord_7', 7),
 ('discord_8', 8),
 ('discord_9', 9),
-('discord_10', 10);
+('5409242503124090910', 10);

@@ -26,18 +26,22 @@ module.exports = {
             }
             
             const query = `
-            SELECT
-                    Adventurer.*,
-                    Level.Level AS AdventurerLevel,
-                    Level.ExperienceRequired AS ExperienceRequired,
-                    Class.Name AS ClassName
-                    FROM Adventurer
-                JOIN DiscordUser ON Adventurer.IdDiscord = DiscordUser.IdDiscord
-                JOIN AdventurerLevel ON Adventurer.IdAdventurer = AdventurerLevel.IdAdventurer
-                JOIN Level ON AdventurerLevel.IdLevel = Level.IdLevel
-                JOIN AdventurerClass ON Adventurer.IdAdventurer = AdventurerClass.IdAdventurer
-                JOIN Class ON AdventurerClass.IdClass = Class.IdClass
-                WHERE DiscordUser.IdDiscord = ?
+SELECT
+    personage.Name AS Name,
+    class.Name AS ClassName,
+    level.Level AS AdventurerLevel,
+    adventurer.Experience AS Experience,
+    level.ExperienceRequired AS ExperienceRequired,
+    personage.HealthPoints AS HealthPoints,
+    personage.MaxHealthPoints AS MaxHealthPoints,
+    personage.Attack AS Attack,
+    personage.Defense AS Defense,
+    adventurer.Gold AS Gold
+FROM adventurer
+JOIN personage ON adventurer.IdPersonage = personage.IdPersonage
+JOIN class ON personage.IdClass = class.IdClass
+JOIN level ON personage.IdLevel = level.IdLevel
+WHERE adventurer.IdDiscord = ?
             `;
 
             connection.query(query, [discordId], (error, result) => {
@@ -48,12 +52,14 @@ module.exports = {
 
                 const adventurerInfo = result[0];
                 message.reply(`
-Informations de l'aventurier :
-Nom : ${adventurerInfo.Name}
+Voici vos informations d'aventurier :
+${adventurerInfo.Name} (${adventurerInfo.ClassName})
 Niveau : ${adventurerInfo.AdventurerLevel}
-Classe : ${adventurerInfo.ClassName}
 Points d'expérience : ${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}
 Points de vie : ${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints}
+Dégâts : ${adventurerInfo.Attack}
+Défense : ${adventurerInfo.Defense}
+Gold : ${adventurerInfo.Gold}
                 `);
             });
         })
