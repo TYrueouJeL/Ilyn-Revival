@@ -60,13 +60,13 @@ WHERE adventurer.IdDiscord = ?
                     .setThumbnail(message.author.displayAvatarURL())
                     .addFields(
                         { name: 'Classe', value: adventurerInfo.ClassName, inline: true },
-                        { name: 'Points de vie', value: `${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints} + '❤️'`, inline: true },
-                        { name: 'Dégâts', value: `${adventurerInfo.Attack}`, inline: true } + '⚔️',
-                        { name: 'Défense', value: `${adventurerInfo.Defense}`, inline: true } + '🛡️',
-                        { name: 'Gold', value: `${adventurerInfo.Gold}`, inline: true } + '💰',
-                        { name: 'Niveau', value: `${adventurerInfo.AdventurerLevel}`, inline: true } + '🔼',
-                        { name: 'Points d\'expérience', value: `${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}`, inline: true } + '⭐',
-                        { name: 'Prochain niveau', value: `${adventurerInfo.ExperienceRequired - adventurerInfo.Experience} points d\'expérience restants`, inline: true } + '⭐',
+                        { name: 'Points de vie', value: `${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints} ❤️`, inline: true },
+                        { name: 'Dégâts', value: `${adventurerInfo.Attack} ⚔️`, inline: true },
+                        { name: 'Défense', value: `${adventurerInfo.Defense} 🛡️`, inline: true },
+                        { name: 'Gold', value: `${adventurerInfo.Gold} 💰`, inline: true },
+                        { name: 'Niveau', value: `${adventurerInfo.AdventurerLevel} ⬆️`, inline: true },
+                        { name: 'Points d\'expérience', value: `${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired} ⭐`, inline: true },
+                        { name: 'Prochain niveau', value: `${adventurerInfo.ExperienceRequired - adventurerInfo.Experience} points d\'expérience restants ⭐`, inline: true },
                     )
                 
                 message.channel.send({ embeds: [adventurerEmbed] });
