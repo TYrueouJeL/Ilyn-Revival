@@ -2,8 +2,8 @@ const connection = require('../../events/database/connection');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    name: 'profile',
-    description: 'Get the adventurer profile',
+    name: 'profil',
+    description: 'Afficher les informations de l\'aventurier',
 
     async run(client, message) {
         const discordId = message.author.id;
