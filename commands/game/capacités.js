@@ -1,11 +1,12 @@
 const connection = require('../../events/database/connection');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    name: 'myAbilities',
-    description: 'Get the adventurer abilities',
+    name: 'capacités',
+    description: 'Affiche les capacités de l\'aventurier',
 
     async run(client, message) {
-        discordId = message.author.id;
+        const discordId = message.author.id;
 
         const verificationQuery = `
             SELECT
@@ -28,10 +29,15 @@ module.exports = {
                 SELECT
                     Ability.Name AS AbilityName,
                     Ability.Description AS AbilityDescription,
-                    AdventurerAbility.Level AS AbilityLevel
-                FROM AdventurerAbility
-                JOIN Ability ON AdventurerAbility.IdAbility = Ability.IdAbility
-                JOIN Adventurer ON AdventurerAbility.IdAdventurer = Adventurer.IdAdventurer
+                    Level.Level AS AbilityLevel,
+                    Ability.Damage AS AbilityDamage,
+                    Ability.Regen AS AbilityRegen,
+                    Ability.Shield AS AbilityShield,
+                FROM Adventurer
+                JOIN Personage ON Adventurer.IdPersonage = Personage.IdPersonage
+                JOIN Class ON Personage.IdClass = Class.IdClass
+                JOIN Ability ON Class.IdClass = Ability.IdClass
+                JOIN Level ON Ability.IdLevel = Level.IdLevel
                 WHERE Adventurer.IdDiscord = ?
             `;
 
@@ -45,11 +51,29 @@ module.exports = {
                     return message.channel.send('Vous n\'avez pas encore de capacités.');
                 }
 
-                let abilitiesMessage = 'Voici vos capacités :\n';
+                const adventurerEmbed = new EmbedBuilder()
+                    .setColor('Blue')
+                    .setTitle('Vos capacités')
+                    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
+                    .setDescription(`Voici vos capacités :`)
+                    .setThumbnail(message.author.displayAvatarURL())
+                    .setTimestamp();
+
                 result.forEach(ability => {
-                    abilitiesMessage += `Nom : ${ability.AbilityName}\nDescription : ${ability.AbilityDescription}\nNiveau : ${ability.AbilityLevel}\n\n`;
-                });
-                message.reply(abilitiesMessage);
+                    adventurerEmbed.addFields({
+                        name: ability.AbilityName,
+                        value: `
+Description : ${ability.AbilityDescription}
+Niveau : ${ability.AbilityLevel}
+Dégâts : ${ability.AbilityDamage}
+Régénération : ${ability.AbilityRegen}
+Bouclier : ${ability.AbilityShield}
+`,
+                        inline: false
+                    });
+                })
+
+                message.channel.send({ embeds: [adventurerEmbed] });
             }])
         })
     }
