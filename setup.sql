@@ -61,6 +61,7 @@ CREATE TABLE Level(
    HealthPointsBonus INT,
    AttackBonus INT,
    DefenseBonus INT,
+   Type VARCHAR(50),
    PRIMARY KEY(IdLevel)
 );
 
@@ -130,12 +131,13 @@ CREATE TABLE Companion(
 );
 
 CREATE TABLE Adventurer(
-   IdDiscord VARCHAR(50),
+   IdAdventurer INT,
+   IdDiscord VARCHAR(50) NOT NULL,
    Gold INT,
    Experience INT,
    IdPlace INT NOT NULL,
    IdPersonage INT NOT NULL,
-   PRIMARY KEY(IdDiscord),
+   PRIMARY KEY(IdAdventurer),
    UNIQUE(IdPersonage),
    FOREIGN KEY(IdPlace) REFERENCES Place(IdPlace),
    FOREIGN KEY(IdPersonage) REFERENCES Personage(IdPersonage)
@@ -177,11 +179,11 @@ CREATE TABLE Building(
 CREATE TABLE Inventory(
    IdInventory INT,
    Quantity INT,
-   IdDiscord VARCHAR(50) NOT NULL,
+   IdAdventurer INT NOT NULL,
    IdItem INT,
    PRIMARY KEY(IdInventory),
-   UNIQUE(IdDiscord),
-   FOREIGN KEY(IdDiscord) REFERENCES Adventurer(IdDiscord),
+   UNIQUE(IdAdventurer),
+   FOREIGN KEY(IdAdventurer) REFERENCES Adventurer(IdAdventurer),
    FOREIGN KEY(IdItem) REFERENCES Item(IdItem)
 );
 
@@ -194,10 +196,9 @@ CREATE TABLE BuildingPlace(
 );
 
 CREATE TABLE AdventurerCompanion(
-   IdDiscord VARCHAR(50),
+   IdAdventurer INT,
    IdCompanion INT,
-   PRIMARY KEY(IdDiscord, IdCompanion),
-   FOREIGN KEY(IdDiscord) REFERENCES Adventurer(IdDiscord),
+   PRIMARY KEY(IdAdventurer, IdCompanion),
+   FOREIGN KEY(IdAdventurer) REFERENCES Adventurer(IdAdventurer),
    FOREIGN KEY(IdCompanion) REFERENCES Companion(IdCompanion)
 );
-
