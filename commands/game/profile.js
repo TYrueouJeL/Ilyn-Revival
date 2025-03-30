@@ -2,13 +2,12 @@ const connection = require('../../events/database/connection');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    name: 'getAdventurerInfo',
-    description: 'Get the adventurer info',
+    name: 'profile',
+    description: 'Get the adventurer profile',
 
     async run(client, message) {
         const discordId = message.author.id;
 
-        //vérification si l'utilisateur a un aventurier
         const verificationQuery = `
             SELECT
                 Adventurer.IdDiscord
@@ -54,19 +53,20 @@ WHERE adventurer.IdDiscord = ?
                 const adventurerInfo = result[0];
 
                 const adventurerEmbed = new EmbedBuilder()
-                    .setColor('Aqua')
-                    .setTitle(adventurerInfo.Name)
+                    .setColor('Blue')
+                    .setTitle(`${adventurerInfo.Name}`)
                     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL() })
                     .setDescription(`Voici vos informations d'aventurier :`)
                     .setThumbnail(message.author.displayAvatarURL())
                     .addFields(
                         { name: 'Classe', value: adventurerInfo.ClassName, inline: true },
-                        { name: 'Points de vie', value: `${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints}`, inline: true },
-                        { name: 'Dégâts', value: `${adventurerInfo.Attack}`, inline: true },
-                        { name: 'Défense', value: `${adventurerInfo.Defense}`, inline: true },
-                        { name: 'Gold', value: `${adventurerInfo.Gold}`, inline: true },
-                        { name: 'Niveau', value: `${adventurerInfo.AdventurerLevel}`, inline: true },
-                        { name: 'Points d\'expérience', value: `${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}`, inline: true },
+                        { name: 'Points de vie', value: `${adventurerInfo.HealthPoints} / ${adventurerInfo.MaxHealthPoints} + '❤️'`, inline: true },
+                        { name: 'Dégâts', value: `${adventurerInfo.Attack}`, inline: true } + '⚔️',
+                        { name: 'Défense', value: `${adventurerInfo.Defense}`, inline: true } + '🛡️',
+                        { name: 'Gold', value: `${adventurerInfo.Gold}`, inline: true } + '💰',
+                        { name: 'Niveau', value: `${adventurerInfo.AdventurerLevel}`, inline: true } + '🔼',
+                        { name: 'Points d\'expérience', value: `${adventurerInfo.Experience} / ${adventurerInfo.ExperienceRequired}`, inline: true } + '⭐',
+                        { name: 'Prochain niveau', value: `${adventurerInfo.ExperienceRequired - adventurerInfo.Experience} points d\'expérience restants`, inline: true } + '⭐',
                     )
                 
                 message.channel.send({ embeds: [adventurerEmbed] });
