@@ -45,6 +45,7 @@ const Personage = sequelize.define('Personage', {
         }
     },
 }, {
+    modelName: 'Personage',
     tableName: 'Personage',
     timestamps: false
 })

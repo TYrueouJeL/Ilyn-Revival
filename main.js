@@ -32,6 +32,8 @@ require('dotenv').config();
 
 client.commands = new Collection();
 
+require('./models/associations');
+
 (async () => {
     await loadCommands(client);
     await loadEvents(client);
