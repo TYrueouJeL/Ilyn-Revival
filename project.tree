@@ -1,0 +1,25 @@
+Ilyn Revival
+├── commands/
+│   ├── game/
+│   │   ├── capacités.js
+│   │   ├── profil.js
+│   │   ├── profilSequelize.js
+│   │   └── start.js
+│   └── utils/
+│       ├── error.js
+│       ├── help.js
+│       ├── ping.js
+│       ├── serverInfo.js
+│       └── userInfo.js
+├── events/
+│   ├── bot/
+│   │   ├── ready.js
+│   └── database/
+│       ├── connection.js
+│       └── sequelizeConnection.js
+├── loaders/
+│   ├── loadCommands.js
+│   └── loadEvents.js
+├── package.json
+├── package-lock.json
+└── README.md
