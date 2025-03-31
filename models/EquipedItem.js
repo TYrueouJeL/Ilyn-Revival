@@ -24,7 +24,7 @@ const EquipedItem = sequelize.define('EquipedItem', {
             key: 'IdEquipmentSlot'
         }
     },
-    IdPersonnage: {
+    IdPersonage: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {

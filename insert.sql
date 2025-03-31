@@ -91,16 +91,16 @@ INSERT INTO Type (IdType, Type) VALUES
 
 -- Table TradeableItem
 INSERT INTO TradeableItem (IdTradeableItem, IdType, IdItem) VALUES
-('Item1', 1, 1),
-('Item2', 2, 2),
-('Item3', 1, 3),
-('Item4', 3, 4),
-('Item5', 1, 5),
-('Item6', 2, 6),
-('Item7', 1, 7),
-('Item8', 4, 8),
-('Item9', 2, 9),
-('Item10', 4, 10);
+(1, 1, 1),
+(2, 2, 2),
+(3, 1, 3),
+(4, 3, 4),
+(5, 1, 5),
+(6, 2, 6),
+(7, 1, 7),
+(8, 4, 8),
+(9, 2, 9),
+(10, 4, 10);
 
 -- Table Personage
 INSERT INTO Personage (IdPersonage, Name, MaxHealthPoints, HealthPoints, Attack, Defense, IdLevel, IdClass) VALUES
