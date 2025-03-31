@@ -51,6 +51,7 @@ CREATE TABLE Item(
    Shield INT,
    Rarity VARCHAR(50),
    RequiredLevel INT,
+   SlotType VARCHAR(50),
    PRIMARY KEY(IdItem)
 );
 
@@ -127,6 +128,23 @@ CREATE TABLE Companion(
    IdPersonage INT NOT NULL,
    PRIMARY KEY(IdCompanion),
    UNIQUE(IdPersonage),
+   FOREIGN KEY(IdPersonage) REFERENCES Personage(IdPersonage)
+);
+
+CREATE TABLE EquipmentSlot(
+   IdEquipmentSlot INT,
+   Name VARCHAR(50),
+   PRIMARY KEY(IdEquipmentSlot)
+);
+
+CREATE TABLE EquipedItem(
+   IdEquipedItem INT,
+   IdItem INT,
+   IdEquipmentSlot INT NOT NULL,
+   IdPersonage INT NOT NULL,
+   PRIMARY KEY(IdEquipedItem),
+   FOREIGN KEY(IdItem) REFERENCES Item(IdItem),
+   FOREIGN KEY(IdEquipmentSlot) REFERENCES EquipmentSlot(IdEquipmentSlot),
    FOREIGN KEY(IdPersonage) REFERENCES Personage(IdPersonage)
 );
 
