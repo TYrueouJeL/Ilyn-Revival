@@ -8,11 +8,11 @@ const Combat = sequelize.define('Combat', {
         autoIncrement: true,
         allowNull: false
     },
-    startTime: {
+    StartTime: {
         type: DataTypes.DATE,
         allowNull: false
     },
-    endTime: {
+    EndTime: {
         type: DataTypes.DATE,
         allowNull: false
     },
