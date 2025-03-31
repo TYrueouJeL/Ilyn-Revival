@@ -169,6 +169,7 @@ CREATE TABLE Ability(
    Regen INT,
    Shield INT,
    Experience INT,
+   LevelRequired INT,
    IdLevel INT NOT NULL,
    IdClass INT NOT NULL,
    PRIMARY KEY(IdAbility),
@@ -221,3 +222,4 @@ CREATE TABLE AdventurerCompanion(
    FOREIGN KEY(IdAdventurer) REFERENCES Adventurer(IdAdventurer),
    FOREIGN KEY(IdCompanion) REFERENCES Companion(IdCompanion)
 );
+

@@ -28,11 +28,13 @@ module.exports = {
             const query = `
 SELECT Ability.Name AS AbilityName, ability.Description AS AbilityDescription, level.Level AS AbilityLevel, ability.Damage AS AbilityDamage, ability.Regen AS AbilityRegen, ability.Shield AS AbilityShield, Ability.Experience AS AbilityExperience, Level.ExperienceRequired AS AbilityExperienceRequired
 FROM Adventurer
-JOIN personage ON adventurer.IdPersonage = personage.IdPersonage
-JOIN class ON  personage.IdClass = class.IdClass
-JOIN ability ON class.IdClass = ability.IdClass
-JOIN level ON ability.IdLevel = level.IdLevel
-WHERE adventurer.IdDiscord = ?
+JOIN Personage ON Adventurer.IdPersonage = Personage.IdPersonage
+JOIN Level AS PersonageLevel ON Personage.IdLevel = PersonageLevel.IdLevel
+JOIN Class ON Personage.IdClass = Class.IdClass
+JOIN Ability ON Class.IdClass = Ability.IdClass
+JOIN Level ON Ability.IdLevel = Level.IdLevel
+WHERE Adventurer.IdDiscord = ?
+  AND PersonageLevel.Level >= Ability.LevelRequired;
             `;
             
             connection.query(query, [discordId], (error, result) => {

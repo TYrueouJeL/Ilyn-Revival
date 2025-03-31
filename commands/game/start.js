@@ -2,14 +2,14 @@ const connection = require('../../events/database/connection');
 const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
-    name: 'startAdventure',
-    description: 'Start the adventure',
+    name: 'start',
+    description: 'Créer un aventurier',
 
     async run(client, message) {
         const discordId = message.author.id;
         const discordUsername = message.author.username;
 
-        const userCheckQuery = `SELECT * FROM DiscordUser WHERE IdDiscord = ?`;
+        const userCheckQuery = `SELECT * FROM Adventurer WHERE IdDiscord = ?`;
         connection.query(userCheckQuery, [discordId], (userCheckError, userCheckResult) => {
             if (userCheckError) {
                 console.error('Erreur lors de la vérification de l\'utilisateur Discord:', userCheckError);
@@ -17,7 +17,7 @@ module.exports = {
             }
 
             if (userCheckResult.length === 0) {
-                const insertQuery = `INSERT INTO DiscordUser (IdDiscord, DiscordUsername) VALUES (?, ?)`;
+                const insertQuery = `INSERT INTO Adventurer (IdDiscord, DiscordUsername) VALUES (?, ?)`;
                 connection.query(insertQuery, [discordId, discordUsername], (insertUserError) => {
                     if (insertUserError) {
                         console.error('Erreur lors de l\'insertion de l\'utilisateur Discord:', insertUserError);

@@ -113,7 +113,7 @@ INSERT INTO Personage (IdPersonage, Name, MaxHealthPoints, HealthPoints, Attack,
 (7, 'Aventurier 7', 160, 160, 32, 22, 3, 1),
 (8, 'Aventurier 8', 170, 170, 34, 24, 3, 2),
 (9, 'Aventurier 9', 180, 180, 36, 26, 3, 3),
-(10, 'Aventurier 10', 190, 190, 38, 28, 3, 1),
+(10, 'Aventurier 10', 190, 190, 38, 28, 1, 1),
 (11, 'Ennemi 1', 200, 200, 40, 30, 1, 1),
 (12, 'Ennemi 2', 210, 210, 42, 32, 1, 2),
 (13, 'Ennemi 3', 220, 220, 44, 34, 1, 3),
@@ -237,17 +237,17 @@ INSERT INTO Adventurer (IdAdventurer, IdDiscord, Gold, Experience, IdPlace, IdPe
 (10, '540924250312409091', 190, 140, 10, 10); -- Aventurier avec l'ID Discord spécifié
 
 -- Table Ability
-INSERT INTO Ability (IdAbility, Name, Description, Damage, Regen, Shield, Experience, IdLevel, IdClass) VALUES
-(1, 'Coup puissant', 'Augmente les dégâts', 10, 0, 0, 50, 1, 1),
-(2, 'Bouclier magique', 'Crée un bouclier', 0, 0, 10, 60, 1, 2),
-(3, 'Flèche enflammée', 'Tire une flèche enflammée', 15, 0, 0, 70, 1, 3),
-(4, 'Soins', 'Restaure des points de vie', 0, 20, 0, 80, 2, 1),
-(5, 'Boule de feu', 'Lance une boule de feu', 20, 0, 0, 90, 2, 2),
-(6, 'Invisibilité', 'Devient invisible', 0, 0, 0, 100, 2, 3),
-(7, 'Coup critique', 'Augmente les chances de coup critique', 25, 0, 0, 110, 3, 1),
-(8, 'Régénération', 'Régénère des points de vie', 0, 30, 0, 120, 3, 2),
-(9, 'Protection divine', 'Augmente la défense', 0, 0, 20, 130, 3, 3),
-(10, 'Foudre', 'Invoque la foudre', 30, 0, 0, 140, 3, 1);
+INSERT INTO Ability (IdAbility, Name, Description, Damage, Regen, Shield, Experience, LevelRequired, IdLevel, IdClass) VALUES
+(1, 'Coup puissant', 'Augmente les dégâts', 10, 0, 0, 50, 1, 1, 1),
+(2, 'Bouclier magique', 'Crée un bouclier', 0, 0, 10, 60, 1, 1, 2),
+(3, 'Flèche enflammée', 'Tire une flèche enflammée', 15, 0, 0, 70, 1, 1, 3),
+(4, 'Soins', 'Restaure des points de vie', 0, 20, 0, 80, 2, 2, 1),
+(5, 'Boule de feu', 'Lance une boule de feu', 20, 0, 0, 90, 2, 2, 2),
+(6, 'Invisibilité', 'Devient invisible', 0, 0, 0, 100, 2, 2, 3),
+(7, 'Coup critique', 'Augmente les chances de coup critique', 25, 0, 0, 110, 3, 3, 1),
+(8, 'Régénération', 'Régénère des points de vie', 0, 30, 0, 120, 3, 3, 2),
+(9, 'Protection divine', 'Augmente la défense', 0, 0, 20, 130, 3, 3, 3),
+(10, 'Foudre', 'Invoque la foudre', 30, 0, 0, 140, 3, 3, 1);
 
 -- Table Enemy
 INSERT INTO Enemy (IdEnemy, ExperienceValue, GoldValue, IdPersonage) VALUES
