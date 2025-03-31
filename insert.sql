@@ -237,17 +237,17 @@ INSERT INTO Adventurer (IdAdventurer, IdDiscord, Gold, Experience, IdPlace, IdPe
 (10, '540924250312409091', 190, 140, 10, 10); -- Aventurier avec l'ID Discord spécifié
 
 -- Table Ability
-INSERT INTO Ability (IdAbility, Name, Description, Damage, Regen, Shield, IdLevel, IdClass) VALUES
-(1, 'Coup puissant', 'Augmente les dégâts', 10, 0, 0, 1, 1),
-(2, 'Bouclier magique', 'Crée un bouclier', 0, 0, 10, 1, 2),
-(3, 'Flèche enflammée', 'Tire une flèche enflammée', 15, 0, 0, 1, 3),
-(4, 'Soins', 'Restaure des points de vie', 0, 20, 0, 2, 1),
-(5, 'Boule de feu', 'Lance une boule de feu', 20, 0, 0, 2, 2),
-(6, 'Invisibilité', 'Devient invisible', 0, 0, 0, 2, 3),
-(7, 'Coup critique', 'Augmente les chances de coup critique', 25, 0, 0, 3, 1),
-(8, 'Régénération', 'Régénère des points de vie', 0, 30, 0, 3, 2),
-(9, 'Protection divine', 'Augmente la défense', 0, 0, 20, 3, 3),
-(10, 'Foudre', 'Invoque la foudre', 30, 0, 0, 3, 1);
+INSERT INTO Ability (IdAbility, Name, Description, Damage, Regen, Shield, Experience, IdLevel, IdClass) VALUES
+(1, 'Coup puissant', 'Augmente les dégâts', 10, 0, 0, 50, 1, 1),
+(2, 'Bouclier magique', 'Crée un bouclier', 0, 0, 10, 60, 1, 2),
+(3, 'Flèche enflammée', 'Tire une flèche enflammée', 15, 0, 0, 70, 1, 3),
+(4, 'Soins', 'Restaure des points de vie', 0, 20, 0, 80, 2, 1),
+(5, 'Boule de feu', 'Lance une boule de feu', 20, 0, 0, 90, 2, 2),
+(6, 'Invisibilité', 'Devient invisible', 0, 0, 0, 100, 2, 3),
+(7, 'Coup critique', 'Augmente les chances de coup critique', 25, 0, 0, 110, 3, 1),
+(8, 'Régénération', 'Régénère des points de vie', 0, 30, 0, 120, 3, 2),
+(9, 'Protection divine', 'Augmente la défense', 0, 0, 20, 130, 3, 3),
+(10, 'Foudre', 'Invoque la foudre', 30, 0, 0, 140, 3, 1);
 
 -- Table Enemy
 INSERT INTO Enemy (IdEnemy, ExperienceValue, GoldValue, IdPersonage) VALUES

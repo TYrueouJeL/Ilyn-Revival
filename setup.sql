@@ -168,6 +168,7 @@ CREATE TABLE Ability(
    Damage INT,
    Regen INT,
    Shield INT,
+   Experience INT,
    IdLevel INT NOT NULL,
    IdClass INT NOT NULL,
    PRIMARY KEY(IdAbility),

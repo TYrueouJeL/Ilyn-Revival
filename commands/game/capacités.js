@@ -26,7 +26,7 @@ module.exports = {
             }
             
             const query = `
-SELECT Ability.Name AS AbilityName, ability.Description AS AbilityDescription, level.Level AS AbilityLevel, ability.Damage AS AbilityDamage, ability.Regen AS AbilityRegen, ability.Shield AS AbilityShield
+SELECT Ability.Name AS AbilityName, ability.Description AS AbilityDescription, level.Level AS AbilityLevel, ability.Damage AS AbilityDamage, ability.Regen AS AbilityRegen, ability.Shield AS AbilityShield, Ability.Experience AS AbilityExperience, Level.ExperienceRequired AS AbilityExperienceRequired
 FROM Adventurer
 JOIN personage ON adventurer.IdPersonage = personage.IdPersonage
 JOIN class ON  personage.IdClass = class.IdClass
@@ -59,6 +59,7 @@ WHERE adventurer.IdDiscord = ?
                         value: `
 Description : ${ability.AbilityDescription}
 Niveau : ${ability.AbilityLevel} ⬆️
+Expérience : ${ability.AbilityExperience} / ${ability.AbilityExperienceRequired} ⭐
 Dégâts : ${ability.AbilityDamage} ⚔️
 Régénération : ${ability.AbilityRegen} 💚
 Bouclier : ${ability.AbilityShield} 🛡️
