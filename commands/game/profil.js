@@ -30,7 +30,7 @@ module.exports = {
             });
 
             if (!adventurer) {
-                return message.channel.send('Vous n\'avez pas d\'aventurier. Veuillez en créer un avec la commande `!startAdventure`.');
+                return message.channel.send('Vous n\'avez pas d\'aventurier. Veuillez en créer un avec la commande `!start`.');
             }
 
             // Extraire les données nécessaires

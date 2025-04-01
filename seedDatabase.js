@@ -29,7 +29,7 @@ async function seedDatabase() {
     await sequelize.sync({ force: true }); // Synchroniser et réinitialiser la base de données
 
     // Insérer les données de fixtures
-    await Class.bulkCreate([
+    const classes = await Class.bulkCreate([
       { IdClass: 1, Name: 'Guerrier', Description: 'Classe de combat rapproché', HealthPointsRatio: 1.5, AttackRatio: 1.2, DefenseRatio: 1.0 },
       { IdClass: 2, Name: 'Mage', Description: 'Classe de magie', HealthPointsRatio: 1.0, AttackRatio: 1.5, DefenseRatio: 0.8 },
       { IdClass: 3, Name: 'Archer', Description: 'Classe de combat à distance', HealthPointsRatio: 1.2, AttackRatio: 1.3, DefenseRatio: 1.1 },
@@ -42,7 +42,7 @@ async function seedDatabase() {
       { IdClass: 10, Name: 'Nécromancien', Description: 'Classe de magie noire', HealthPointsRatio: 1.0, AttackRatio: 1.6, DefenseRatio: 0.7 }
     ]);
 
-    await City.bulkCreate([
+    const cities = await City.bulkCreate([
       { IdCity: 1, Name: 'Ville 1', Description: 'Capitale du royaume', RequiredLevel: 1 },
       { IdCity: 2, Name: 'Ville 2', Description: 'Ville portuaire', RequiredLevel: 2 },
       { IdCity: 3, Name: 'Ville 3', Description: 'Ville montagnarde', RequiredLevel: 3 },
@@ -55,7 +55,7 @@ async function seedDatabase() {
       { IdCity: 10, Name: 'Ville 10', Description: 'Ville agricole', RequiredLevel: 10 }
     ]);
 
-    await Region.bulkCreate([
+    const regions = await Region.bulkCreate([
       { IdRegion: 1, Name: 'Région 1', Description: 'Plaines verdoyantes', RequiredLevel: 1 },
       { IdRegion: 2, Name: 'Région 2', Description: 'Montagnes enneigées', RequiredLevel: 2 },
       { IdRegion: 3, Name: 'Région 3', Description: 'Déserts arides', RequiredLevel: 3 },
@@ -68,7 +68,7 @@ async function seedDatabase() {
       { IdRegion: 10, Name: 'Région 10', Description: 'Collines vallonnées', RequiredLevel: 10 }
     ]);
 
-    await Place.bulkCreate([
+    const places = await Place.bulkCreate([
       { IdPlace: 1, Name: 'Place 1', Description: 'Centre de la ville', Location: 1.000, IdRegion: 1, IdCity: 1 },
       { IdPlace: 2, Name: 'Place 2', Description: 'Port principal', Location: 2.000, IdRegion: 2, IdCity: 2 },
       { IdPlace: 3, Name: 'Place 3', Description: 'Sommet de la montagne', Location: 3.000, IdRegion: 3, IdCity: 3 },
@@ -81,7 +81,7 @@ async function seedDatabase() {
       { IdPlace: 10, Name: 'Place 10', Description: 'Ferme', Location: 10.000, IdRegion: 10, IdCity: 10 }
     ]);
 
-    await Item.bulkCreate([
+    const items = await Item.bulkCreate([
       { IdItem: 1, Name: 'Épée', Description: 'Épée en fer', BuyPrice: 100, SellPrice: 50, Damage: 10, Regen: 0, Shield: 0, Rarity: 'Commun', RequiredLevel: 1, SlotType: 'Main' },
       { IdItem: 2, Name: 'Bouclier', Description: 'Bouclier en bois', BuyPrice: 80, SellPrice: 40, Damage: 0, Regen: 0, Shield: 5, Rarity: 'Commun', RequiredLevel: 1, SlotType: 'Main' },
       { IdItem: 3, Name: 'Arc', Description: 'Arc en bois', BuyPrice: 120, SellPrice: 60, Damage: 8, Regen: 0, Shield: 0, Rarity: 'Commun', RequiredLevel: 1, SlotType: 'Main' },
@@ -94,7 +94,7 @@ async function seedDatabase() {
       { IdItem: 10, Name: 'Amulette', Description: 'Amulette de régénération', BuyPrice: 350, SellPrice: 175, Damage: 0, Regen: 20, Shield: 0, Rarity: 'Légendaire', RequiredLevel: 4, SlotType: 'Accessoire' }
     ]);
 
-    await Level.bulkCreate([
+    const levels = await Level.bulkCreate([
       { IdLevel: 1, Level: 1, ExperienceRequired: 100, HealthPointsBonus: 10, AttackBonus: 5, DefenseBonus: 3, Type: 'Débutant' },
       { IdLevel: 2, Level: 2, ExperienceRequired: 200, HealthPointsBonus: 20, AttackBonus: 10, DefenseBonus: 6, Type: 'Intermédiaire' },
       { IdLevel: 3, Level: 3, ExperienceRequired: 400, HealthPointsBonus: 30, AttackBonus: 15, DefenseBonus: 9, Type: 'Avancé' },
@@ -107,7 +107,7 @@ async function seedDatabase() {
       { IdLevel: 10, Level: 10, ExperienceRequired: 51200, HealthPointsBonus: 100, AttackBonus: 50, DefenseBonus: 30, Type: 'Immortel' }
     ]);
 
-    await Type.bulkCreate([
+    const types = await Type.bulkCreate([
       { IdType: 1, Type: 'Arme' },
       { IdType: 2, Type: 'Armure' },
       { IdType: 3, Type: 'Consommable' },
@@ -120,306 +120,181 @@ async function seedDatabase() {
       { IdType: 10, Type: 'Magie' }
     ]);
 
-    await TradeableItem.bulkCreate([
-      { IdTradeableItem: 1, IdType: 1, IdItem: 1 },
-      { IdTradeableItem: 2, IdType: 2, IdItem: 2 },
-      { IdTradeableItem: 3, IdType: 1, IdItem: 3 },
-      { IdTradeableItem: 4, IdType: 3, IdItem: 4 },
-      { IdTradeableItem: 5, IdType: 1, IdItem: 5 },
-      { IdTradeableItem: 6, IdType: 2, IdItem: 6 },
-      { IdTradeableItem: 7, IdType: 1, IdItem: 7 },
-      { IdTradeableItem: 8, IdType: 4, IdItem: 8 },
-      { IdTradeableItem: 9, IdType: 2, IdItem: 9 },
-      { IdTradeableItem: 10, IdType: 4, IdItem: 10 }
-    ]);
+    const tradeableItems = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        tradeableItems.push({ IdTradeableItem: (i - 1) * 10 + j, IdType: i, IdItem: j });
+      }
+    }
+    await TradeableItem.bulkCreate(tradeableItems);
 
-    await Personage.bulkCreate([
-      { IdPersonage: 1, Name: 'Aventurier 1', MaxHealthPoints: 100, HealthPoints: 100, Attack: 20, Defense: 10, IdLevel: 1, IdClass: 1 },
-      { IdPersonage: 2, Name: 'Aventurier 2', MaxHealthPoints: 110, HealthPoints: 110, Attack: 22, Defense: 12, IdLevel: 1, IdClass: 2 },
-      { IdPersonage: 3, Name: 'Aventurier 3', MaxHealthPoints: 120, HealthPoints: 120, Attack: 24, Defense: 14, IdLevel: 1, IdClass: 3 },
-      { IdPersonage: 4, Name: 'Aventurier 4', MaxHealthPoints: 130, HealthPoints: 130, Attack: 26, Defense: 16, IdLevel: 2, IdClass: 1 },
-      { IdPersonage: 5, Name: 'Aventurier 5', MaxHealthPoints: 140, HealthPoints: 140, Attack: 28, Defense: 18, IdLevel: 2, IdClass: 2 },
-      { IdPersonage: 6, Name: 'Aventurier 6', MaxHealthPoints: 150, HealthPoints: 150, Attack: 30, Defense: 20, IdLevel: 2, IdClass: 3 },
-      { IdPersonage: 7, Name: 'Aventurier 7', MaxHealthPoints: 160, HealthPoints: 160, Attack: 32, Defense: 22, IdLevel: 3, IdClass: 1 },
-      { IdPersonage: 8, Name: 'Aventurier 8', MaxHealthPoints: 170, HealthPoints: 170, Attack: 34, Defense: 24, IdLevel: 3, IdClass: 2 },
-      { IdPersonage: 9, Name: 'Aventurier 9', MaxHealthPoints: 180, HealthPoints: 180, Attack: 36, Defense: 26, IdLevel: 3, IdClass: 3 },
-      { IdPersonage: 10, Name: 'Aventurier 10', MaxHealthPoints: 190, HealthPoints: 190, Attack: 38, Defense: 28, IdLevel: 1, IdClass: 1 },
-      { IdPersonage: 11, Name: 'Ennemi 1', MaxHealthPoints: 200, HealthPoints: 200, Attack: 40, Defense: 30, IdLevel: 1, IdClass: 1 },
-      { IdPersonage: 12, Name: 'Ennemi 2', MaxHealthPoints: 210, HealthPoints: 210, Attack: 42, Defense: 32, IdLevel: 1, IdClass: 2 },
-      { IdPersonage: 13, Name: 'Ennemi 3', MaxHealthPoints: 220, HealthPoints: 220, Attack: 44, Defense: 34, IdLevel: 1, IdClass: 3 },
-      { IdPersonage: 14, Name: 'Ennemi 4', MaxHealthPoints: 230, HealthPoints: 230, Attack: 46, Defense: 36, IdLevel: 2, IdClass: 1 },
-      { IdPersonage: 15, Name: 'Ennemi 5', MaxHealthPoints: 240, HealthPoints: 240, Attack: 48, Defense: 38, IdLevel: 2, IdClass: 2 },
-      { IdPersonage: 16, Name: 'Ennemi 6', MaxHealthPoints: 250, HealthPoints: 250, Attack: 50, Defense: 40, IdLevel: 2, IdClass: 3 },
-      { IdPersonage: 17, Name: 'Ennemi 7', MaxHealthPoints: 260, HealthPoints: 260, Attack: 52, Defense: 42, IdLevel: 3, IdClass: 1 },
-      { IdPersonage: 18, Name: 'Ennemi 8', MaxHealthPoints: 270, HealthPoints: 270, Attack: 54, Defense: 44, IdLevel: 3, IdClass: 2 },
-      { IdPersonage: 19, Name: 'Ennemi 9', MaxHealthPoints: 280, HealthPoints: 280, Attack: 56, Defense: 46, IdLevel: 3, IdClass: 3 },
-      { IdPersonage: 20, Name: 'Ennemi 10', MaxHealthPoints: 290, HealthPoints: 290, Attack: 58, Defense: 48, IdLevel: 3, IdClass: 1 },
-      { IdPersonage: 21, Name: 'Compagnon 1', MaxHealthPoints: 300, HealthPoints: 300, Attack: 60, Defense: 50, IdLevel: 1, IdClass: 1 },
-      { IdPersonage: 22, Name: 'Compagnon 2', MaxHealthPoints: 310, HealthPoints: 310, Attack: 62, Defense: 52, IdLevel: 1, IdClass: 2 },
-      { IdPersonage: 23, Name: 'Compagnon 3', MaxHealthPoints: 320, HealthPoints: 320, Attack: 64, Defense: 54, IdLevel: 1, IdClass: 3 },
-      { IdPersonage: 24, Name: 'Compagnon 4', MaxHealthPoints: 330, HealthPoints: 330, Attack: 66, Defense: 56, IdLevel: 2, IdClass: 1 },
-      { IdPersonage: 25, Name: 'Compagnon 5', MaxHealthPoints: 340, HealthPoints: 340, Attack: 68, Defense: 58, IdLevel: 2, IdClass: 2 },
-      { IdPersonage: 26, Name: 'Compagnon 6', MaxHealthPoints: 350, HealthPoints: 350, Attack: 70, Defense: 60, IdLevel: 2, IdClass: 3 },
-      { IdPersonage: 27, Name: 'Compagnon 7', MaxHealthPoints: 360, HealthPoints: 360, Attack: 72, Defense: 62, IdLevel: 3, IdClass: 1 },
-      { IdPersonage: 28, Name: 'Compagnon 8', MaxHealthPoints: 370, HealthPoints: 370, Attack: 74, Defense: 64, IdLevel: 3, IdClass: 2 },
-      { IdPersonage: 29, Name: 'Compagnon 9', MaxHealthPoints: 380, HealthPoints: 380, Attack: 76, Defense: 66, IdLevel: 3, IdClass: 3 },
-      { IdPersonage: 30, Name: 'Compagnon 10', MaxHealthPoints: 390, HealthPoints: 390, Attack: 78, Defense: 68, IdLevel: 3, IdClass: 1 }
-    ]);
+    const personages = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        personages.push({
+          IdPersonage: (i - 1) * 10 + j,
+          Name: `Personnage ${(i - 1) * 10 + j}`,
+          MaxHealthPoints: 100 + (i * 10),
+          HealthPoints: 100 + (i * 10),
+          Attack: 20 + (i * 2),
+          Defense: 10 + (i * 2),
+          IdLevel: j,
+          IdClass: i
+        });
+      }
+    }
+    await Personage.bulkCreate(personages);
 
-    await Combat.bulkCreate([
-      { IdCombat: 1, StartTime: new Date('2023-01-01 10:00:00'), EndTime: new Date('2023-01-01 10:30:00'), Status: 'Terminé', IdPlace: 1 },
-      { IdCombat: 2, StartTime: new Date('2023-01-02 11:00:00'), EndTime: new Date('2023-01-02 11:45:00'), Status: 'Terminé', IdPlace: 2 },
-      { IdCombat: 3, StartTime: new Date('2023-01-03 12:00:00'), EndTime: new Date('2023-01-03 12:15:00'), Status: 'Terminé', IdPlace: 3 },
-      { IdCombat: 4, StartTime: new Date('2023-01-04 13:00:00'), EndTime: new Date('2023-01-04 13:30:00'), Status: 'Terminé', IdPlace: 4 },
-      { IdCombat: 5, StartTime: new Date('2023-01-05 14:00:00'), EndTime: new Date('2023-01-05 14:45:00'), Status: 'Terminé', IdPlace: 5 },
-      { IdCombat: 6, StartTime: new Date('2023-01-06 15:00:00'), EndTime: new Date('2023-01-06 15:30:00'), Status: 'Terminé', IdPlace: 6 },
-      { IdCombat: 7, StartTime: new Date('2023-01-07 16:00:00'), EndTime: new Date('2023-01-07 16:45:00'), Status: 'Terminé', IdPlace: 7 },
-      { IdCombat: 8, StartTime: new Date('2023-01-08 17:00:00'), EndTime: new Date('2023-01-08 17:30:00'), Status: 'Terminé', IdPlace: 8 },
-      { IdCombat: 9, StartTime: new Date('2023-01-09 18:00:00'), EndTime: new Date('2023-01-09 18:45:00'), Status: 'Terminé', IdPlace: 9 },
-      { IdCombat: 10, StartTime: new Date('2023-01-10 19:00:00'), EndTime: new Date('2023-01-10 19:30:00'), Status: 'Terminé', IdPlace: 10 }
-    ]);
+    const combats = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        combats.push({
+          IdCombat: (i - 1) * 10 + j,
+          StartTime: new Date(`2023-01-${String(i).padStart(2, '0')} ${String(j).padStart(2, '0')}:00:00`),
+          EndTime: new Date(`2023-01-${String(i).padStart(2, '0')} ${String(j).padStart(2, '0')}:30:00`),
+          Status: 'Terminé',
+          IdPlace: i
+        });
+      }
+    }
+    await Combat.bulkCreate(combats);
 
-    await CombatTeam.bulkCreate([
-      { IdCombatTeam: 1, Type: 'Équipe 1', IdCombat: 1 },
-      { IdCombatTeam: 2, Type: 'Équipe 2', IdCombat: 1 },
-      { IdCombatTeam: 3, Type: 'Équipe 1', IdCombat: 2 },
-      { IdCombatTeam: 4, Type: 'Équipe 2', IdCombat: 2 },
-      { IdCombatTeam: 5, Type: 'Équipe 1', IdCombat: 3 },
-      { IdCombatTeam: 6, Type: 'Équipe 2', IdCombat: 3 },
-      { IdCombatTeam: 7, Type: 'Équipe 1', IdCombat: 4 },
-      { IdCombatTeam: 8, Type: 'Équipe 2', IdCombat: 4 },
-      { IdCombatTeam: 9, Type: 'Équipe 1', IdCombat: 5 },
-      { IdCombatTeam: 10, Type: 'Équipe 2', IdCombat: 5 },
-      { IdCombatTeam: 11, Type: 'Équipe 1', IdCombat: 6 },
-      { IdCombatTeam: 12, Type: 'Équipe 2', IdCombat: 6 },
-      { IdCombatTeam: 13, Type: 'Équipe 1', IdCombat: 7 },
-      { IdCombatTeam: 14, Type: 'Équipe 2', IdCombat: 7 },
-      { IdCombatTeam: 15, Type: 'Équipe 1', IdCombat: 8 },
-      { IdCombatTeam: 16, Type: 'Équipe 2', IdCombat: 8 },
-      { IdCombatTeam: 17, Type: 'Équipe 1', IdCombat: 9 },
-      { IdCombatTeam: 18, Type: 'Équipe 2', IdCombat: 9 },
-      { IdCombatTeam: 19, Type: 'Équipe 1', IdCombat: 10 },
-      { IdCombatTeam: 20, Type: 'Équipe 2', IdCombat: 10 }
-    ]);
+    const combatTeams = [];
+    for (let i = 1; i <= 100; i++) {
+      combatTeams.push({ IdCombatTeam: i, Type: `Équipe ${i}`, IdCombat: i });
+    }
+    await CombatTeam.bulkCreate(combatTeams);
 
-    await CombatParticipant.bulkCreate([
-      { IdCombatParticipant: 1, IdPersonage: 1, IdCombatTeam: 1 },
-      { IdCombatParticipant: 2, IdPersonage: 2, IdCombatTeam: 1 },
-      { IdCombatParticipant: 3, IdPersonage: 11, IdCombatTeam: 2 },
-      { IdCombatParticipant: 4, IdPersonage: 12, IdCombatTeam: 2 },
-      { IdCombatParticipant: 5, IdPersonage: 3, IdCombatTeam: 3 },
-      { IdCombatParticipant: 6, IdPersonage: 4, IdCombatTeam: 3 },
-      { IdCombatParticipant: 7, IdPersonage: 13, IdCombatTeam: 4 },
-      { IdCombatParticipant: 8, IdPersonage: 14, IdCombatTeam: 4 },
-      { IdCombatParticipant: 9, IdPersonage: 5, IdCombatTeam: 5 },
-      { IdCombatParticipant: 10, IdPersonage: 6, IdCombatTeam: 5 },
-      { IdCombatParticipant: 11, IdPersonage: 15, IdCombatTeam: 6 },
-      { IdCombatParticipant: 12, IdPersonage: 16, IdCombatTeam: 6 },
-      { IdCombatParticipant: 13, IdPersonage: 7, IdCombatTeam: 7 },
-      { IdCombatParticipant: 14, IdPersonage: 8, IdCombatTeam: 7 },
-      { IdCombatParticipant: 15, IdPersonage: 17, IdCombatTeam: 8 },
-      { IdCombatParticipant: 16, IdPersonage: 18, IdCombatTeam: 8 },
-      { IdCombatParticipant: 17, IdPersonage: 9, IdCombatTeam: 9 },
-      { IdCombatParticipant: 18, IdPersonage: 10, IdCombatTeam: 9 },
-      { IdCombatParticipant: 19, IdPersonage: 19, IdCombatTeam: 10 },
-      { IdCombatParticipant: 20, IdPersonage: 20, IdCombatTeam: 10 },
-      { IdCombatParticipant: 21, IdPersonage: 21, IdCombatTeam: 11 },
-      { IdCombatParticipant: 22, IdPersonage: 22, IdCombatTeam: 11 },
-      { IdCombatParticipant: 23, IdPersonage: 23, IdCombatTeam: 12 },
-      { IdCombatParticipant: 24, IdPersonage: 24, IdCombatTeam: 12 },
-      { IdCombatParticipant: 25, IdPersonage: 25, IdCombatTeam: 13 },
-      { IdCombatParticipant: 26, IdPersonage: 26, IdCombatTeam: 13 },
-      { IdCombatParticipant: 27, IdPersonage: 27, IdCombatTeam: 14 },
-      { IdCombatParticipant: 28, IdPersonage: 28, IdCombatTeam: 14 },
-      { IdCombatParticipant: 29, IdPersonage: 29, IdCombatTeam: 15 },
-      { IdCombatParticipant: 30, IdPersonage: 30, IdCombatTeam: 15 }
-    ]);
+    const combatParticipants = [];
+    for (let i = 1; i <= 100; i++) {
+      for (let j = 1; j <= 10; j++) {
+        combatParticipants.push({ IdCombatParticipant: (i - 1) * 10 + j, IdPersonage: j, IdCombatTeam: i });
+      }
+    }
+    await CombatParticipant.bulkCreate(combatParticipants);
 
-    await Companion.bulkCreate([
-      { IdCompanion: 1, Experience: 100, IdPersonage: 21 },
-      { IdCompanion: 2, Experience: 110, IdPersonage: 22 },
-      { IdCompanion: 3, Experience: 120, IdPersonage: 23 },
-      { IdCompanion: 4, Experience: 130, IdPersonage: 24 },
-      { IdCompanion: 5, Experience: 140, IdPersonage: 25 },
-      { IdCompanion: 6, Experience: 150, IdPersonage: 26 },
-      { IdCompanion: 7, Experience: 160, IdPersonage: 27 },
-      { IdCompanion: 8, Experience: 170, IdPersonage: 28 },
-      { IdCompanion: 9, Experience: 180, IdPersonage: 29 },
-      { IdCompanion: 10, Experience: 190, IdPersonage: 30 }
-    ]);
+    const companions = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        companions.push({ IdCompanion: (i - 1) * 10 + j, Experience: 100 * j, IdPersonage: (i - 1) * 10 + j });
+      }
+    }
+    await Companion.bulkCreate(companions);
 
-    await EquipmentSlot.bulkCreate([
-      { IdEquipmentSlot: 1, Name: 'Main' },
-      { IdEquipmentSlot: 2, Name: 'Tête' },
-      { IdEquipmentSlot: 3, Name: 'Corps' },
-      { IdEquipmentSlot: 4, Name: 'Accessoire' },
-      { IdEquipmentSlot: 5, Name: 'Pieds' },
-      { IdEquipmentSlot: 6, Name: 'Ceinture' },
-      { IdEquipmentSlot: 7, Name: 'Dos' },
-      { IdEquipmentSlot: 8, Name: 'Cou' },
-      { IdEquipmentSlot: 9, Name: 'Poignet' },
-      { IdEquipmentSlot: 10, Name: 'Doigt' }
-    ]);
+    const equipmentSlots = [];
+    for (let i = 1; i <= 10; i++) {
+      equipmentSlots.push({ IdEquipmentSlot: i, Name: `Slot ${i}` });
+    }
+    await EquipmentSlot.bulkCreate(equipmentSlots);
 
-    await EquipedItem.bulkCreate([
-      { IdEquipedItem: 1, IdItem: 1, IdEquipmentSlot: 1, IdPersonage: 1 },
-      { IdEquipedItem: 2, IdItem: 2, IdEquipmentSlot: 2, IdPersonage: 1 },
-      { IdEquipedItem: 3, IdItem: 3, IdEquipmentSlot: 1, IdPersonage: 2 },
-      { IdEquipedItem: 4, IdItem: 4, IdEquipmentSlot: 4, IdPersonage: 2 },
-      { IdEquipedItem: 5, IdItem: 5, IdEquipmentSlot: 1, IdPersonage: 3 },
-      { IdEquipedItem: 6, IdItem: 6, IdEquipmentSlot: 3, IdPersonage: 3 },
-      { IdEquipedItem: 7, IdItem: 7, IdEquipmentSlot: 1, IdPersonage: 4 },
-      { IdEquipedItem: 8, IdItem: 8, IdEquipmentSlot: 4, IdPersonage: 4 },
-      { IdEquipedItem: 9, IdItem: 9, IdEquipmentSlot: 2, IdPersonage: 5 },
-      { IdEquipedItem: 10, IdItem: 10, IdEquipmentSlot: 4, IdPersonage: 5 },
-      { IdEquipedItem: 11, IdItem: 1, IdEquipmentSlot: 1, IdPersonage: 6 },
-      { IdEquipedItem: 12, IdItem: 2, IdEquipmentSlot: 2, IdPersonage: 6 },
-      { IdEquipedItem: 13, IdItem: 3, IdEquipmentSlot: 1, IdPersonage: 7 },
-      { IdEquipedItem: 14, IdItem: 4, IdEquipmentSlot: 4, IdPersonage: 7 },
-      { IdEquipedItem: 15, IdItem: 5, IdEquipmentSlot: 1, IdPersonage: 8 },
-      { IdEquipedItem: 16, IdItem: 6, IdEquipmentSlot: 3, IdPersonage: 8 },
-      { IdEquipedItem: 17, IdItem: 7, IdEquipmentSlot: 1, IdPersonage: 9 },
-      { IdEquipedItem: 18, IdItem: 8, IdEquipmentSlot: 4, IdPersonage: 9 },
-      { IdEquipedItem: 19, IdItem: 9, IdEquipmentSlot: 2, IdPersonage: 10 },
-      { IdEquipedItem: 20, IdItem: 10, IdEquipmentSlot: 4, IdPersonage: 10 }
-    ]);
+    const equipedItems = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        equipedItems.push({ IdEquipedItem: (i - 1) * 10 + j, IdItem: j, IdEquipmentSlot: i, IdPersonage: i });
+      }
+    }
+    await EquipedItem.bulkCreate(equipedItems);
 
-    await CombatTurn.bulkCreate([
-      { IdCombatTurn: 1, TurnNumber: 1, IdCombat: 1 },
-      { IdCombatTurn: 2, TurnNumber: 2, IdCombat: 1 },
-      { IdCombatTurn: 3, TurnNumber: 1, IdCombat: 2 },
-      { IdCombatTurn: 4, TurnNumber: 2, IdCombat: 2 },
-      { IdCombatTurn: 5, TurnNumber: 1, IdCombat: 3 },
-      { IdCombatTurn: 6, TurnNumber: 2, IdCombat: 3 },
-      { IdCombatTurn: 7, TurnNumber: 1, IdCombat: 4 },
-      { IdCombatTurn: 8, TurnNumber: 2, IdCombat: 4 },
-      { IdCombatTurn: 9, TurnNumber: 1, IdCombat: 5 },
-      { IdCombatTurn: 10, TurnNumber: 2, IdCombat: 5 },
-      { IdCombatTurn: 11, TurnNumber: 1, IdCombat: 6 },
-      { IdCombatTurn: 12, TurnNumber: 2, IdCombat: 6 },
-      { IdCombatTurn: 13, TurnNumber: 1, IdCombat: 7 },
-      { IdCombatTurn: 14, TurnNumber: 2, IdCombat: 7 },
-      { IdCombatTurn: 15, TurnNumber: 1, IdCombat: 8 },
-      { IdCombatTurn: 16, TurnNumber: 2, IdCombat: 8 },
-      { IdCombatTurn: 17, TurnNumber: 1, IdCombat: 9 },
-      { IdCombatTurn: 18, TurnNumber: 2, IdCombat: 9 },
-      { IdCombatTurn: 19, TurnNumber: 1, IdCombat: 10 },
-      { IdCombatTurn: 20, TurnNumber: 2, IdCombat: 10 }
-    ]);
+    const combatTurns = [];
+    for (let i = 1; i <= 100; i++) {
+      for (let j = 1; j <= 10; j++) {
+        combatTurns.push({ IdCombatTurn: (i - 1) * 10 + j, TurnNumber: j, IdCombat: i });
+      }
+    }
+    await CombatTurn.bulkCreate(combatTurns);
 
-    await CombatAction.bulkCreate([
-      { IdCombatAction: 1, Damage: 10, Regen: 0, Shield: 0, IdSourceCombatParticipant: 1, IdTargetCombatParticipant: 3, IdCombatTurn: 1 },
-      { IdCombatAction: 2, Damage: 0, Regen: 10, Shield: 0, IdSourceCombatParticipant: 2, IdTargetCombatParticipant: 4, IdCombatTurn: 2 },
-      { IdCombatAction: 3, Damage: 15, Regen: 0, Shield: 0, IdSourceCombatParticipant: 5, IdTargetCombatParticipant: 7, IdCombatTurn: 3 },
-      { IdCombatAction: 4, Damage: 0, Regen: 20, Shield: 0, IdSourceCombatParticipant: 6, IdTargetCombatParticipant: 8, IdCombatTurn: 4 },
-      { IdCombatAction: 5, Damage: 20, Regen: 0, Shield: 0, IdSourceCombatParticipant: 9, IdTargetCombatParticipant: 11, IdCombatTurn: 5 },
-      { IdCombatAction: 6, Damage: 0, Regen: 0, Shield: 10, IdSourceCombatParticipant: 10, IdTargetCombatParticipant: 12, IdCombatTurn: 6 },
-      { IdCombatAction: 7, Damage: 25, Regen: 0, Shield: 0, IdSourceCombatParticipant: 13, IdTargetCombatParticipant: 15, IdCombatTurn: 7 },
-      { IdCombatAction: 8, Damage: 0, Regen: 30, Shield: 0, IdSourceCombatParticipant: 14, IdTargetCombatParticipant: 16, IdCombatTurn: 8 },
-      { IdCombatAction: 9, Damage: 0, Regen: 0, Shield: 20, IdSourceCombatParticipant: 17, IdTargetCombatParticipant: 19, IdCombatTurn: 9 },
-      { IdCombatAction: 10, Damage: 30, Regen: 0, Shield: 0, IdSourceCombatParticipant: 18, IdTargetCombatParticipant: 20, IdCombatTurn: 10 },
-      { IdCombatAction: 11, Damage: 10, Regen: 0, Shield: 0, IdSourceCombatParticipant: 21, IdTargetCombatParticipant: 23, IdCombatTurn: 11 },
-      { IdCombatAction: 12, Damage: 0, Regen: 10, Shield: 0, IdSourceCombatParticipant: 22, IdTargetCombatParticipant: 24, IdCombatTurn: 12 },
-      { IdCombatAction: 13, Damage: 15, Regen: 0, Shield: 0, IdSourceCombatParticipant: 25, IdTargetCombatParticipant: 27, IdCombatTurn: 13 },
-      { IdCombatAction: 14, Damage: 0, Regen: 20, Shield: 0, IdSourceCombatParticipant: 26, IdTargetCombatParticipant: 28, IdCombatTurn: 14 },
-      { IdCombatAction: 15, Damage: 20, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 15 },
-      { IdCombatAction: 16, Damage: 0, Regen: 0, Shield: 10, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 16 },
-      { IdCombatAction: 17, Damage: 25, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 17 },
-      { IdCombatAction: 18, Damage: 0, Regen: 30, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 18 },
-      { IdCombatAction: 19, Damage: 0, Regen: 0, Shield: 20, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 19 },
-      { IdCombatAction: 20, Damage: 30, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 20 }
-    ]);
+    const combatActions = [];
+    for (let i = 1; i <= 1000; i++) {
+      combatActions.push({
+        IdCombatAction: i,
+        Damage: 10 * (i % 10),
+        Regen: 5 * (i % 5),
+        Shield: 2 * (i % 2),
+        IdSourceCombatParticipant: i,
+        IdTargetCombatParticipant: i % 100 || 100,
+        IdCombatTurn: Math.ceil(i / 10)
+      });
+    }
+    await CombatAction.bulkCreate(combatActions);
 
-    await Adventurer.bulkCreate([
-      { IdAdventurer: 1, IdDiscord: 'Discord1', Gold: 100, Experience: 50, IdPlace: 1, IdPersonage: 1 },
-      { IdAdventurer: 2, IdDiscord: 'Discord2', Gold: 110, Experience: 60, IdPlace: 2, IdPersonage: 2 },
-      { IdAdventurer: 3, IdDiscord: 'Discord3', Gold: 120, Experience: 70, IdPlace: 3, IdPersonage: 3 },
-      { IdAdventurer: 4, IdDiscord: 'Discord4', Gold: 130, Experience: 80, IdPlace: 4, IdPersonage: 4 },
-      { IdAdventurer: 5, IdDiscord: 'Discord5', Gold: 140, Experience: 90, IdPlace: 5, IdPersonage: 5 },
-      { IdAdventurer: 6, IdDiscord: 'Discord6', Gold: 150, Experience: 100, IdPlace: 6, IdPersonage: 6 },
-      { IdAdventurer: 7, IdDiscord: 'Discord7', Gold: 160, Experience: 110, IdPlace: 7, IdPersonage: 7 },
-      { IdAdventurer: 8, IdDiscord: 'Discord8', Gold: 170, Experience: 120, IdPlace: 8, IdPersonage: 8 },
-      { IdAdventurer: 9, IdDiscord: 'Discord9', Gold: 180, Experience: 130, IdPlace: 9, IdPersonage: 9 },
-      { IdAdventurer: 10, IdDiscord: '540924250312409091', Gold: 190, Experience: 140, IdPlace: 10, IdPersonage: 10 }
-    ]);
+    const adventurers = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        adventurers.push({
+          IdAdventurer: (i - 1) * 10 + j,
+          IdDiscord: `Discord${(i - 1) * 10 + j}`,
+          Gold: 100 * j,
+          Experience: 50 * j,
+          IdPlace: i,
+          IdPersonage: (i - 1) * 10 + j
+        });
+      }
+    }
+    await Adventurer.bulkCreate(adventurers);
 
-    await Ability.bulkCreate([
-      { IdAbility: 1, Name: 'Coup puissant', Description: 'Augmente les dégâts', Damage: 10, Regen: 0, Shield: 0, Experience: 50, LevelRequired: 1, IdLevel: 1, IdClass: 1 },
-      { IdAbility: 2, Name: 'Bouclier magique', Description: 'Crée un bouclier', Damage: 0, Regen: 0, Shield: 10, Experience: 60, LevelRequired: 1, IdLevel: 1, IdClass: 2 },
-      { IdAbility: 3, Name: 'Flèche enflammée', Description: 'Tire une flèche enflammée', Damage: 15, Regen: 0, Shield: 0, Experience: 70, LevelRequired: 1, IdLevel: 1, IdClass: 3 },
-      { IdAbility: 4, Name: 'Soins', Description: 'Restaure des points de vie', Damage: 0, Regen: 20, Shield: 0, Experience: 80, LevelRequired: 2, IdLevel: 2, IdClass: 1 },
-      { IdAbility: 5, Name: 'Boule de feu', Description: 'Lance une boule de feu', Damage: 20, Regen: 0, Shield: 0, Experience: 90, LevelRequired: 2, IdLevel: 2, IdClass: 2 },
-      { IdAbility: 6, Name: 'Invisibilité', Description: 'Devient invisible', Damage: 0, Regen: 0, Shield: 0, Experience: 100, LevelRequired: 2, IdLevel: 2, IdClass: 3 },
-      { IdAbility: 7, Name: 'Coup critique', Description: 'Augmente les chances de coup critique', Damage: 25, Regen: 0, Shield: 0, Experience: 110, LevelRequired: 3, IdLevel: 3, IdClass: 1 },
-      { IdAbility: 8, Name: 'Régénération', Description: 'Régénère des points de vie', Damage: 0, Regen: 30, Shield: 0, Experience: 120, LevelRequired: 3, IdLevel: 3, IdClass: 2 },
-      { IdAbility: 9, Name: 'Protection divine', Description: 'Augmente la défense', Damage: 0, Regen: 0, Shield: 20, Experience: 130, LevelRequired: 3, IdLevel: 3, IdClass: 3 },
-      { IdAbility: 10, Name: 'Foudre', Description: 'Invoque la foudre', Damage: 30, Regen: 0, Shield: 0, Experience: 140, LevelRequired: 3, IdLevel: 3, IdClass: 1 }
-    ]);
+    const abilities = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        abilities.push({
+          IdAbility: (i - 1) * 10 + j,
+          Name: `Ability ${(i - 1) * 10 + j}`,
+          Description: `Description ${(i - 1) * 10 + j}`,
+          Damage: 10 * j,
+          Regen: 5 * j,
+          Shield: 2 * j,
+          Experience: 50 * j,
+          LevelRequired: j,
+          IdLevel: j,
+          IdClass: i
+        });
+      }
+    }
+    await Ability.bulkCreate(abilities);
 
-    await Enemy.bulkCreate([
-      { IdEnemy: 1, ExperienceValue: 50, GoldValue: 20, IdPersonage: 11 },
-      { IdEnemy: 2, ExperienceValue: 55, GoldValue: 22, IdPersonage: 12 },
-      { IdEnemy: 3, ExperienceValue: 60, GoldValue: 24, IdPersonage: 13 },
-      { IdEnemy: 4, ExperienceValue: 65, GoldValue: 26, IdPersonage: 14 },
-      { IdEnemy: 5, ExperienceValue: 70, GoldValue: 28, IdPersonage: 15 },
-      { IdEnemy: 6, ExperienceValue: 75, GoldValue: 30, IdPersonage: 16 },
-      { IdEnemy: 7, ExperienceValue: 80, GoldValue: 32, IdPersonage: 17 },
-      { IdEnemy: 8, ExperienceValue: 85, GoldValue: 34, IdPersonage: 18 },
-      { IdEnemy: 9, ExperienceValue: 90, GoldValue: 36, IdPersonage: 19 },
-      { IdEnemy: 10, ExperienceValue: 95, GoldValue: 38, IdPersonage: 20 }
-    ]);
+    const enemies = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        enemies.push({
+          IdEnemy: (i - 1) * 10 + j,
+          ExperienceValue: 50 * j,
+          GoldValue: 20 * j,
+          IdPersonage: (i - 1) * 10 + j
+        });
+      }
+    }
+    await Enemy.bulkCreate(enemies);
 
-    await Building.bulkCreate([
-      { IdBuilding: 1, Name: 'Forge', Description: 'Pour forger des armes', IdType: 5 },
-      { IdBuilding: 2, Name: 'Taverne', Description: 'Pour se reposer', IdType: 5 },
-      { IdBuilding: 3, Name: 'Temple', Description: 'Pour prier', IdType: 5 },
-      { IdBuilding: 4, Name: 'Bibliothèque', Description: 'Pour étudier', IdType: 5 },
-      { IdBuilding: 5, Name: 'Magasin', Description: 'Pour acheter des objets', IdType: 5 },
-      { IdBuilding: 6, Name: 'Marché', Description: 'Pour vendre des objets', IdType: 5 },
-      { IdBuilding: 7, Name: 'Château', Description: 'Pour rencontrer le roi', IdType: 5 },
-      { IdBuilding: 8, Name: 'Prison', Description: 'Pour enfermer les ennemis', IdType: 5 },
-      { IdBuilding: 9, Name: 'Tour de guet', Description: 'Pour surveiller', IdType: 5 },
-      { IdBuilding: 10, Name: 'Écurie', Description: 'Pour les montures', IdType: 5 }
-    ]);
+    const buildings = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        buildings.push({ IdBuilding: (i - 1) * 10 + j, Name: `Building ${(i - 1) * 10 + j}`, Description: `Description ${(i - 1) * 10 + j}`, IdType: i });
+      }
+    }
+    await Building.bulkCreate(buildings);
 
-    await Inventory.bulkCreate([
-      { IdInventory: 1, Quantity: 1, IdAdventurer: 1, IdItem: 1 },
-      { IdInventory: 2, Quantity: 2, IdAdventurer: 2, IdItem: 2 },
-      { IdInventory: 3, Quantity: 3, IdAdventurer: 3, IdItem: 3 },
-      { IdInventory: 4, Quantity: 4, IdAdventurer: 4, IdItem: 4 },
-      { IdInventory: 5, Quantity: 5, IdAdventurer: 5, IdItem: 5 },
-      { IdInventory: 6, Quantity: 6, IdAdventurer: 6, IdItem: 6 },
-      { IdInventory: 7, Quantity: 7, IdAdventurer: 7, IdItem: 7 },
-      { IdInventory: 8, Quantity: 8, IdAdventurer: 8, IdItem: 8 },
-      { IdInventory: 9, Quantity: 9, IdAdventurer: 9, IdItem: 9 },
-      { IdInventory: 10, Quantity: 10, IdAdventurer: 10, IdItem: 10 }
-    ]);
+    const inventories = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        inventories.push({ IdInventory: (i - 1) * 10 + j, Quantity: j, IdAdventurer: (i - 1) * 10 + j, IdItem: j });
+      }
+    }
+    await Inventory.bulkCreate(inventories);
 
-    await BuildingPlace.bulkCreate([
-      { IdPlace: 1, IdBuilding: 1 },
-      { IdPlace: 2, IdBuilding: 2 },
-      { IdPlace: 3, IdBuilding: 3 },
-      { IdPlace: 4, IdBuilding: 4 },
-      { IdPlace: 5, IdBuilding: 5 },
-      { IdPlace: 6, IdBuilding: 6 },
-      { IdPlace: 7, IdBuilding: 7 },
-      { IdPlace: 8, IdBuilding: 8 },
-      { IdPlace: 9, IdBuilding: 9 },
-      { IdPlace: 10, IdBuilding: 10 }
-    ]);
+    const buildingPlaces = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        buildingPlaces.push({ IdPlace: i, IdBuilding: (i - 1) * 10 + j });
+      }
+    }
+    await BuildingPlace.bulkCreate(buildingPlaces);
 
-    await AdventurerCompanion.bulkCreate([
-      { IdAdventurer: 1, IdCompanion: 1 },
-      { IdAdventurer: 2, IdCompanion: 2 },
-      { IdAdventurer: 3, IdCompanion: 3 },
-      { IdAdventurer: 4, IdCompanion: 4 },
-      { IdAdventurer: 5, IdCompanion: 5 },
-      { IdAdventurer: 6, IdCompanion: 6 },
-      { IdAdventurer: 7, IdCompanion: 7 },
-      { IdAdventurer: 8, IdCompanion: 8 },
-      { IdAdventurer: 9, IdCompanion: 9 },
-      { IdAdventurer: 10, IdCompanion: 10 }
-    ]);
+    const adventurerCompanions = [];
+    for (let i = 1; i <= 10; i++) {
+      for (let j = 1; j <= 10; j++) {
+        adventurerCompanions.push({ IdAdventurer: (i - 1) * 10 + j, IdCompanion: (i - 1) * 10 + j });
+      }
+    }
+    await AdventurerCompanion.bulkCreate(adventurerCompanions);
 
     console.log('Fixtures insérées avec succès.');
   } catch (error) {

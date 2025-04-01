@@ -69,7 +69,12 @@ Bouclier: ${ability.Shield} 🛡️
 
                 message.channel.send({ embeds: [abilitiesEmbed] });
             } else {
-                message.channel.send('Vous n\'avez pas encore de capacités.');
+                if (!adventurer) {
+                    message.channel.send('Vous n\'avez pas d\'aventurier. Veuillez en créer un avec la commande `!start`.');
+                }
+                else {
+                    message.channel.send('Vous n\'avez pas encore de capacités.');
+                }
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des capacités de l\'aventurier:', error);

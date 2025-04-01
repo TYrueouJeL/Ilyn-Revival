@@ -1,129 +1,105 @@
-const connection = require('../../events/database/connection');
 const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
+const Adventurer = require('../../models/Adventurer');
+const Class = require('../../models/Class');
+const Personage = require('../../models/Personage');
+const Level = require('../../models/Level');
+const Place = require('../../models/Place');
 
 module.exports = {
     name: 'start',
-    description: 'Créer un aventurier',
+    description: 'Commence une nouvelle partie',
 
     async run(client, message) {
-        const discordId = message.author.id;
-        const discordUsername = message.author.username;
+        try {
+            const discordId = message.author.id;
+            const discordUsername = message.author.username;
 
-        const userCheckQuery = `SELECT * FROM Adventurer WHERE IdDiscord = ?`;
-        connection.query(userCheckQuery, [discordId], (userCheckError, userCheckResult) => {
-            if (userCheckError) {
-                console.error('Erreur lors de la vérification de l\'utilisateur Discord:', userCheckError);
-                return message.channel.send('Une erreur est survenue lors de la vérification de l\'utilisateur Discord.');
+            const personage = await Personage.findOne({
+                include: [
+                    {
+                        model: Adventurer,
+                        where: { IdDiscord: discordId },
+                    },
+                ],
+            })
+
+            if (personage) {
+                return message.reply('Vous avez déjà un aventurier !');
             }
 
-            if (userCheckResult.length === 0) {
-                const insertQuery = `INSERT INTO Adventurer (IdDiscord, DiscordUsername) VALUES (?, ?)`;
-                connection.query(insertQuery, [discordId, discordUsername], (insertUserError) => {
-                    if (insertUserError) {
-                        console.error('Erreur lors de l\'insertion de l\'utilisateur Discord:', insertUserError);
-                        return message.channel.send('Une erreur est survenue lors de l\'insertion de l\'utilisateur Discord.');
-                    }
+            const classResult = await Class.findAll();
 
-                    createAdventurer();
-                });
+            if (!classResult || classResult.length === 0) {
+                return message.reply('Aucune classe disponible.');
             }
-        });
 
-        function createAdventurer() {
-            const query = `
-                SELECT
-                    Adventurer.IdDiscord
-                FROM Adventurer
-                WHERE Adventurer.IdDiscord = ?
-            `;
-
-            connection.query(query, [discordId], (error, result) => {
-                if (error) {
-                    console.error('Erreur lors de la vérification de l\'aventurier:', error);
-                    return message.channel.send('Une erreur est survenue lors de la vérification de l\'aventurier.');
-                }
-
-                if (result.length > 0) {
-                    return message.channel.send('Vous avez déjà un aventurier !');
-                }
-
-                const classQuery = `SELECT IdClass, Name FROM Class`;
-                connection.query(classQuery, (classError, classResult) => {
-                    if (classError) {
-                        console.error('Erreur lors de la récupération des classes:', classError);
-                        return message.channel.send('Une erreur est survenue lors de la récupération des classes.');
-                    }
-
-                    const row = new ActionRowBuilder()
-                        .addComponents(
-                            new StringSelectMenuBuilder()
-                                .setCustomId('classSelect')
-                                .setPlaceholder('Sélectionnez une classe')
-                                .addOptions(
-                                    classResult.map(cls =>
-                                        new StringSelectMenuOptionBuilder({
-                                            label: cls.Name,
-                                            value: cls.IdClass.toString(),
-                                        })
-                                    ),
-                                ),
-                        );
-
-                    message.channel.send({
-                        content: 'Sélectionnez une classe pour votre aventurier :',
-                        components: [row],
-                    });
-
-                    const filter = i => i.customId === 'classSelect' && i.user.id === discordId;
-                    const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
-
-                    collector.on('collect', async interaction => {
-                        const selectedClassId = interaction.values[0];
-
-                        const selectedClassQuery = `SELECT * FROM Class WHERE IdClass = ?`;
-                        connection.query(selectedClassQuery, [selectedClassId], (selectError, selectResult) => {
-                            if (selectError || selectResult.length === 0) {
-                                console.error('Erreur lors de la récupération de la classe sélectionnée:', selectError);
-                                return interaction.reply('Une erreur est survenue lors de la récupération de la classe sélectionnée.');
-                            }
-
-                            const selectedClass = selectResult[0];
-                            const adventurerData = [
-                                message.author.username,    //Name
-                                0,                          //Gold
-                                0,                          //Experience
-                                selectedClass.HealthPoints, //MaxHealthPoints
-                                selectedClass.HealthPoints, //HealthPoints
-                                selectedClass.Attack,       //Attack
-                                selectedClass.Defense,      //Defense
-                                1,                          //IdPlace
-                                selectedClass.IdClass,      //IdClass
-                                discordId,                 //IdDiscord
-                            ];
-
-                            const insertQuery = `
-                                INSERT INTO Adventurer (Name, Gold, Experience, MaxHealthPoints, HealthPoints, Attack, Defense, IdPlace, IdClass, IdDiscord)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                            `;
-
-                            connection.query(insertQuery, adventurerData, (insertError) => {
-                                if (insertError) {
-                                    console.error('Erreur lors de l\'insertion de l\'aventurier:', insertError);
-                                    return interaction.reply('Une erreur est survenue lors de l\'insertion de l\'aventurier.');
-                                }
-
-                                interaction.reply(`Votre aventurier de classe ${selectedClass.Name} a été créé !`);
-                            });
-                        });
-                    });
-
-                    collector.on('end', collected => {
-                        if (collected.size === 0) {
-                            message.channel.send('Vous n\'avez pas choisi de classe. La création de l\'aventurier a été annulée.');
-                        }
-                    });
-                });
+            const options = classResult.map((classItem) => {
+                return new StringSelectMenuOptionBuilder()
+                    .setLabel(classItem.Name)
+                    .setValue(classItem.IdClass.toString());
             });
+
+            const row = new ActionRowBuilder()
+                .addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId('classSelect')
+                        .setPlaceholder('Sélectionnez une classe')
+                        .addOptions(options)
+                );
+
+            const filter = (interaction) => {
+                return interaction.user.id === discordId;
+            }
+
+            const collector = message.channel.createMessageComponentCollector({ filter, time: 15000 });
+
+            collector.on('collect', async (interaction) => {
+                if (interaction.customId === 'classSelect') {
+                    const selectedClassId = interaction.values[0];
+
+                    const level = await Level.findOne({
+                        where: { Level: 1 },
+                    });
+
+                    const place = await Place.findOne({
+                        where: { Location: 1.000 },
+                    });
+
+                    const newPersonage = await Personage.create({
+                        Name: discordUsername,
+                        MaxHealthPoints: 100,
+                        HealthPoints: 100,
+                        Attack: 10,
+                        Defense: 5,
+                        IdClass: selectedClassId,
+                        IdLevel: level.IdLevel,
+                    });
+                    
+                    await Adventurer.create({
+                        IdDiscord: discordId,
+                        Gold: 0,
+                        Experience: 0,
+                        IdPersonage: newPersonage.IdPersonage,
+                        IdPlace: place.IdPlace,
+                    });
+
+                    await interaction.reply(`Votre aventurier ${discordUsername} a été créé avec succès !`);
+                }
+            });
+
+            message.channel.send({
+                content: 'Sélectionnez une classe pour votre aventurier :',
+                components: [row],
+            });
+
+            collector.on('end', (collected) => {
+                if (collected.size === 0) {
+                    message.reply('Aucune classe sélectionnée. Veuillez réessayer.');
+                }
+            });
+        } catch (error) {
+            console.error('Erreur lors de la commande start:', error);
+            message.reply('Une erreur est survenue lors du démarrage de la partie.');
         }
-    }
+    },
 };
