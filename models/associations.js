@@ -1,4 +1,3 @@
-const { BelongsTo } = require('sequelize');
 const Ability = require('./Ability');
 const Adventurer = require('./Adventurer');
 const AdventurerCompanion = require('./AdventurerCompanion');
@@ -21,80 +20,110 @@ const Place = require('./Place');
 const Region = require('./Region');
 const TradeableItem = require('./TradeableItem');
 const Type = require('./Type');
+const CombatAction = require('./CombatAction');
+const CombatTurn = require('./CombatTurn');
 
-Ability.belongsTo(Class, { foreignKey: 'IdClass', targetKey: 'IdClass' });
-Ability.belongsTo(Level, { foreignKey: 'IdLevel', targetKey: 'IdLevel' });
+// Associations
 
-Adventurer.belongsTo(Personage, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Adventurer.belongsTo(Place, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
-Adventurer.hasOne(Inventory, { foreignKey: 'IdAdventurer', targetKey: 'IdAdventurer' });
-Adventurer.hasMany(AdventurerCompanion, { foreignKey: 'IdAdventurer', targetKey: 'IdAdventurer' });
+// Class associations
+Class.hasMany(Personage, { foreignKey: 'IdClass' });
+Class.hasMany(Ability, { foreignKey: 'IdClass' });
 
-AdventurerCompanion.belongsTo(Adventurer, { foreignKey: 'IdAdventurer', targetKey: 'IdAdventurer' });
-AdventurerCompanion.belongsTo(Companion, { foreignKey: 'IdCompanion', targetKey: 'IdCompanion' });
+// City associations
+City.hasMany(Place, { foreignKey: 'IdCity' });
 
-Building.belongsTo(Type, { foreignKey: 'IdType', targetKey: 'IdType' });
-Building.hasMany(BuildingPlace, { foreignKey: 'IdBuilding', targetKey: 'IdBuilding' });
+// Region associations
+Region.hasMany(Place, { foreignKey: 'IdRegion' });
 
-BuildingPlace.belongsTo(Building, { foreignKey: 'IdBuilding', targetKey: 'IdBuilding' });
-BuildingPlace.belongsTo(Place, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
+// Place associations
+Place.belongsTo(City, { foreignKey: 'IdCity' });
+Place.belongsTo(Region, { foreignKey: 'IdRegion' });
+Place.hasMany(Combat, { foreignKey: 'IdPlace' });
+Place.belongsToMany(Building, { through: BuildingPlace, foreignKey: 'IdPlace' });
 
-City.hasMany(Place, { foreignKey: 'IdCity', targetKey: 'IdCity' });
-City.belongsTo(Region, { foreignKey: 'IdRegion', targetKey: 'IdRegion' });
+// Item associations
+Item.hasMany(TradeableItem, { foreignKey: 'IdItem' });
+Item.hasMany(EquipedItem, { foreignKey: 'IdItem' });
+Item.hasMany(Inventory, { foreignKey: 'IdItem' });
 
-Class.hasMany(Ability, { foreignKey: 'IdClass', targetKey: 'IdClass' });
-Class.hasMany(Personage, { foreignKey: 'IdClass', targetKey: 'IdClass' });
+// Level associations
+Level.hasMany(Personage, { foreignKey: 'IdLevel' });
+Level.hasMany(Ability, { foreignKey: 'IdLevel' });
 
-Combat.hasMany(CombatTeam, { foreignKey: 'IdCombat', targetKey: 'IdCombat' });
-Combat.belongsTo(Place, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
+// Type associations
+Type.hasMany(TradeableItem, { foreignKey: 'IdType' });
+Type.hasMany(Building, { foreignKey: 'IdType' });
 
-CombatParticipant.belongsTo(Personage, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-CombatParticipant.belongsTo(CombatTeam, { foreignKey: 'IdCombatTeam', targetKey: 'IdCombatTeam' });
+// Personage associations
+Personage.belongsTo(Class, { foreignKey: 'IdClass' });
+Personage.belongsTo(Level, { foreignKey: 'IdLevel' });
+Personage.hasMany(CombatParticipant, { foreignKey: 'IdPersonage' });
+Personage.hasOne(Companion, { foreignKey: 'IdPersonage' });
+Personage.hasOne(Enemy, { foreignKey: 'IdPersonage' });
+Personage.hasOne(Adventurer, { foreignKey: 'IdPersonage' });
 
-CombatTeam.belongsTo(Combat, { foreignKey: 'IdCombat', targetKey: 'IdCombat' });
-CombatTeam.hasMany(CombatParticipant, { foreignKey: 'IdCombatTeam', targetKey: 'IdCombatTeam' });
+// Combat associations
+Combat.belongsTo(Place, { foreignKey: 'IdPlace' });
+Combat.hasMany(CombatTeam, { foreignKey: 'IdCombat' });
+Combat.hasMany(CombatTurn, { foreignKey: 'IdCombat' });
 
-Companion.belongsTo(Personage, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Companion.hasMany(AdventurerCompanion, { foreignKey: 'IdCompanion', targetKey: 'IdCompanion' });
+// CombatTeam associations
+CombatTeam.belongsTo(Combat, { foreignKey: 'IdCombat' });
+CombatTeam.hasMany(CombatParticipant, { foreignKey: 'IdCombatTeam' });
 
-Enemy.belongsTo(Personage, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
+// CombatParticipant associations
+CombatParticipant.belongsTo(Personage, { foreignKey: 'IdPersonage' });
+CombatParticipant.belongsTo(CombatTeam, { foreignKey: 'IdCombatTeam' });
+CombatParticipant.hasMany(CombatAction, { foreignKey: 'IdCombatParticipant' });
+CombatParticipant.hasMany(CombatAction, { foreignKey: 'IdCombatParticipant_1' });
 
-EquipedItem.belongsTo(Personage, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-EquipedItem.belongsTo(EquipmentSlot, { foreignKey: 'IdEquipmentSlot', targetKey: 'IdEquipmentSlot' });
-EquipedItem.belongsTo(Item, { foreignKey: 'IdItem', targetKey: 'IdItem' });
+// Companion associations
+Companion.belongsTo(Personage, { foreignKey: 'IdPersonage' });
+Companion.belongsToMany(Adventurer, { through: AdventurerCompanion, foreignKey: 'IdCompanion' });
 
-EquipmentSlot.hasOne(EquipedItem, { foreignKey: 'IdEquipmentSlot', targetKey: 'IdEquipmentSlot' });
+// EquipmentSlot associations
+EquipmentSlot.hasMany(EquipedItem, { foreignKey: 'IdEquipmentSlot' });
 
-Inventory.belongsTo(Adventurer, { foreignKey: 'IdAdventurer', targetKey: 'IdAdventurer' });
-Inventory.belongsTo(Item, { foreignKey: 'IdItem', targetKey: 'IdItem' });
+// EquipedItem associations
+EquipedItem.belongsTo(Item, { foreignKey: 'IdItem' });
+EquipedItem.belongsTo(EquipmentSlot, { foreignKey: 'IdEquipmentSlot' });
+EquipedItem.belongsTo(Personage, { foreignKey: 'IdPersonage' });
 
-Item.hasMany(Inventory, { foreignKey: 'IdItem', targetKey: 'IdItem' });
-Item.hasMany(TradeableItem, { foreignKey: 'IdItem', targetKey: 'IdItem' });
-Item.hasMany(EquipedItem, { foreignKey: 'IdItem', targetKey: 'IdItem' });
+// Adventurer associations
+Adventurer.belongsTo(Personage, { foreignKey: 'IdPersonage' });
+Adventurer.hasOne(Inventory, { foreignKey: 'IdAdventurer' });
+Adventurer.belongsToMany(Companion, { through: AdventurerCompanion, foreignKey: 'IdAdventurer' });
 
-Level.hasMany(Ability, { foreignKey: 'IdLevel', targetKey: 'IdLevel' });
-Level.hasMany(Personage, { foreignKey: 'IdLevel', targetKey: 'IdLevel' });
+// Ability associations
+Ability.belongsTo(Level, { foreignKey: 'IdLevel' });
+Ability.belongsTo(Class, { foreignKey: 'IdClass' });
 
-Personage.hasMany(Enemy, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Personage.hasMany(CombatParticipant, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Personage.hasMany(Companion, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Personage.hasMany(Adventurer, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Personage.hasMany(EquipedItem, { foreignKey: 'IdPersonage', targetKey: 'IdPersonage' });
-Personage.belongsTo(Level, { foreignKey: 'IdLevel', targetKey: 'IdLevel' });
-Personage.belongsTo(Class, { foreignKey: 'IdClass', targetKey: 'IdClass' });
+// Enemy associations
+Enemy.belongsTo(Personage, { foreignKey: 'IdPersonage' });
 
-Place.hasMany(Combat, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
-Place.hasMany(Adventurer, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
-Place.hasMany(BuildingPlace, { foreignKey: 'IdPlace', targetKey: 'IdPlace' });
-Place.belongsTo(City, { foreignKey: 'IdCity', targetKey: 'IdCity' });   
-Place.belongsTo(Region, { foreignKey: 'IdRegion', targetKey: 'IdRegion' });
+// Building associations
+Building.belongsTo(Type, { foreignKey: 'IdType' });
+Building.belongsToMany(Place, { through: BuildingPlace, foreignKey: 'IdBuilding' });
 
-Region.hasMany(Place, { foreignKey: 'IdRegion', targetKey: 'IdRegion' });
+// Inventory associations
+Inventory.belongsTo(Adventurer, { foreignKey: 'IdAdventurer' });
+Inventory.belongsTo(Item, { foreignKey: 'IdItem' });
 
-TradeableItem.belongsTo(Item, { foreignKey: 'IdItem', targetKey: 'IdItem' });
-TradeableItem.belongsTo(Type, { foreignKey: 'IdType', targetKey: 'IdType' });
+// BuildingPlace associations
+BuildingPlace.belongsTo(Place, { foreignKey: 'IdPlace' });
+BuildingPlace.belongsTo(Building, { foreignKey: 'IdBuilding' });
 
-Type.hasMany(TradeableItem, { foreignKey: 'IdType', targetKey: 'IdType' });
-Type.hasMany(Building, { foreignKey: 'IdType', targetKey: 'IdType' });
+// AdventurerCompanion associations
+AdventurerCompanion.belongsTo(Adventurer, { foreignKey: 'IdAdventurer' });
+AdventurerCompanion.belongsTo(Companion, { foreignKey: 'IdCompanion' });
+
+// CombatTurn associations
+CombatTurn.belongsTo(Combat, { foreignKey: 'IdCombat' });
+CombatTurn.hasMany(CombatAction, { foreignKey: 'IdCombatTurn' });
+
+// CombatAction associations
+CombatAction.belongsTo(CombatParticipant, { foreignKey: 'IdCombatParticipant' });
+CombatAction.belongsTo(CombatParticipant, { foreignKey: 'IdCombatParticipant_1' });
+CombatAction.belongsTo(CombatTurn, { foreignKey: 'IdCombatTurn' });
 
 console.log('Associations entre les modèles établies avec succès.');
