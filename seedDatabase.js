@@ -21,6 +21,8 @@ const Building = require('./models/Building');
 const Inventory = require('./models/Inventory');
 const BuildingPlace = require('./models/BuildingPlace');
 const AdventurerCompanion = require('./models/AdventurerCompanion');
+const CombatTurn = require('./models/CombatTurn');
+const CombatAction = require('./models/CombatAction');
 
 async function seedDatabase() {
   try {
@@ -187,7 +189,17 @@ async function seedDatabase() {
       { IdCombatTeam: 7, Type: 'Équipe 1', IdCombat: 4 },
       { IdCombatTeam: 8, Type: 'Équipe 2', IdCombat: 4 },
       { IdCombatTeam: 9, Type: 'Équipe 1', IdCombat: 5 },
-      { IdCombatTeam: 10, Type: 'Équipe 2', IdCombat: 5 }
+      { IdCombatTeam: 10, Type: 'Équipe 2', IdCombat: 5 },
+      { IdCombatTeam: 11, Type: 'Équipe 1', IdCombat: 6 },
+      { IdCombatTeam: 12, Type: 'Équipe 2', IdCombat: 6 },
+      { IdCombatTeam: 13, Type: 'Équipe 1', IdCombat: 7 },
+      { IdCombatTeam: 14, Type: 'Équipe 2', IdCombat: 7 },
+      { IdCombatTeam: 15, Type: 'Équipe 1', IdCombat: 8 },
+      { IdCombatTeam: 16, Type: 'Équipe 2', IdCombat: 8 },
+      { IdCombatTeam: 17, Type: 'Équipe 1', IdCombat: 9 },
+      { IdCombatTeam: 18, Type: 'Équipe 2', IdCombat: 9 },
+      { IdCombatTeam: 19, Type: 'Équipe 1', IdCombat: 10 },
+      { IdCombatTeam: 20, Type: 'Équipe 2', IdCombat: 10 }
     ]);
 
     await CombatParticipant.bulkCreate([
@@ -210,7 +222,17 @@ async function seedDatabase() {
       { IdCombatParticipant: 17, IdPersonage: 9, IdCombatTeam: 9 },
       { IdCombatParticipant: 18, IdPersonage: 10, IdCombatTeam: 9 },
       { IdCombatParticipant: 19, IdPersonage: 19, IdCombatTeam: 10 },
-      { IdCombatParticipant: 20, IdPersonage: 20, IdCombatTeam: 10 }
+      { IdCombatParticipant: 20, IdPersonage: 20, IdCombatTeam: 10 },
+      { IdCombatParticipant: 21, IdPersonage: 21, IdCombatTeam: 11 },
+      { IdCombatParticipant: 22, IdPersonage: 22, IdCombatTeam: 11 },
+      { IdCombatParticipant: 23, IdPersonage: 23, IdCombatTeam: 12 },
+      { IdCombatParticipant: 24, IdPersonage: 24, IdCombatTeam: 12 },
+      { IdCombatParticipant: 25, IdPersonage: 25, IdCombatTeam: 13 },
+      { IdCombatParticipant: 26, IdPersonage: 26, IdCombatTeam: 13 },
+      { IdCombatParticipant: 27, IdPersonage: 27, IdCombatTeam: 14 },
+      { IdCombatParticipant: 28, IdPersonage: 28, IdCombatTeam: 14 },
+      { IdCombatParticipant: 29, IdPersonage: 29, IdCombatTeam: 15 },
+      { IdCombatParticipant: 30, IdPersonage: 30, IdCombatTeam: 15 }
     ]);
 
     await Companion.bulkCreate([
@@ -249,7 +271,63 @@ async function seedDatabase() {
       { IdEquipedItem: 7, IdItem: 7, IdEquipmentSlot: 1, IdPersonage: 4 },
       { IdEquipedItem: 8, IdItem: 8, IdEquipmentSlot: 4, IdPersonage: 4 },
       { IdEquipedItem: 9, IdItem: 9, IdEquipmentSlot: 2, IdPersonage: 5 },
-      { IdEquipedItem: 10, IdItem: 10, IdEquipmentSlot: 4, IdPersonage: 5 }
+      { IdEquipedItem: 10, IdItem: 10, IdEquipmentSlot: 4, IdPersonage: 5 },
+      { IdEquipedItem: 11, IdItem: 1, IdEquipmentSlot: 1, IdPersonage: 6 },
+      { IdEquipedItem: 12, IdItem: 2, IdEquipmentSlot: 2, IdPersonage: 6 },
+      { IdEquipedItem: 13, IdItem: 3, IdEquipmentSlot: 1, IdPersonage: 7 },
+      { IdEquipedItem: 14, IdItem: 4, IdEquipmentSlot: 4, IdPersonage: 7 },
+      { IdEquipedItem: 15, IdItem: 5, IdEquipmentSlot: 1, IdPersonage: 8 },
+      { IdEquipedItem: 16, IdItem: 6, IdEquipmentSlot: 3, IdPersonage: 8 },
+      { IdEquipedItem: 17, IdItem: 7, IdEquipmentSlot: 1, IdPersonage: 9 },
+      { IdEquipedItem: 18, IdItem: 8, IdEquipmentSlot: 4, IdPersonage: 9 },
+      { IdEquipedItem: 19, IdItem: 9, IdEquipmentSlot: 2, IdPersonage: 10 },
+      { IdEquipedItem: 20, IdItem: 10, IdEquipmentSlot: 4, IdPersonage: 10 }
+    ]);
+
+    await CombatTurn.bulkCreate([
+      { IdCombatTurn: 1, TurnNumber: 1, IdCombat: 1 },
+      { IdCombatTurn: 2, TurnNumber: 2, IdCombat: 1 },
+      { IdCombatTurn: 3, TurnNumber: 1, IdCombat: 2 },
+      { IdCombatTurn: 4, TurnNumber: 2, IdCombat: 2 },
+      { IdCombatTurn: 5, TurnNumber: 1, IdCombat: 3 },
+      { IdCombatTurn: 6, TurnNumber: 2, IdCombat: 3 },
+      { IdCombatTurn: 7, TurnNumber: 1, IdCombat: 4 },
+      { IdCombatTurn: 8, TurnNumber: 2, IdCombat: 4 },
+      { IdCombatTurn: 9, TurnNumber: 1, IdCombat: 5 },
+      { IdCombatTurn: 10, TurnNumber: 2, IdCombat: 5 },
+      { IdCombatTurn: 11, TurnNumber: 1, IdCombat: 6 },
+      { IdCombatTurn: 12, TurnNumber: 2, IdCombat: 6 },
+      { IdCombatTurn: 13, TurnNumber: 1, IdCombat: 7 },
+      { IdCombatTurn: 14, TurnNumber: 2, IdCombat: 7 },
+      { IdCombatTurn: 15, TurnNumber: 1, IdCombat: 8 },
+      { IdCombatTurn: 16, TurnNumber: 2, IdCombat: 8 },
+      { IdCombatTurn: 17, TurnNumber: 1, IdCombat: 9 },
+      { IdCombatTurn: 18, TurnNumber: 2, IdCombat: 9 },
+      { IdCombatTurn: 19, TurnNumber: 1, IdCombat: 10 },
+      { IdCombatTurn: 20, TurnNumber: 2, IdCombat: 10 }
+    ]);
+
+    await CombatAction.bulkCreate([
+      { IdCombatAction: 1, Damage: 10, Regen: 0, Shield: 0, IdSourceCombatParticipant: 1, IdTargetCombatParticipant: 3, IdCombatTurn: 1 },
+      { IdCombatAction: 2, Damage: 0, Regen: 10, Shield: 0, IdSourceCombatParticipant: 2, IdTargetCombatParticipant: 4, IdCombatTurn: 2 },
+      { IdCombatAction: 3, Damage: 15, Regen: 0, Shield: 0, IdSourceCombatParticipant: 5, IdTargetCombatParticipant: 7, IdCombatTurn: 3 },
+      { IdCombatAction: 4, Damage: 0, Regen: 20, Shield: 0, IdSourceCombatParticipant: 6, IdTargetCombatParticipant: 8, IdCombatTurn: 4 },
+      { IdCombatAction: 5, Damage: 20, Regen: 0, Shield: 0, IdSourceCombatParticipant: 9, IdTargetCombatParticipant: 11, IdCombatTurn: 5 },
+      { IdCombatAction: 6, Damage: 0, Regen: 0, Shield: 10, IdSourceCombatParticipant: 10, IdTargetCombatParticipant: 12, IdCombatTurn: 6 },
+      { IdCombatAction: 7, Damage: 25, Regen: 0, Shield: 0, IdSourceCombatParticipant: 13, IdTargetCombatParticipant: 15, IdCombatTurn: 7 },
+      { IdCombatAction: 8, Damage: 0, Regen: 30, Shield: 0, IdSourceCombatParticipant: 14, IdTargetCombatParticipant: 16, IdCombatTurn: 8 },
+      { IdCombatAction: 9, Damage: 0, Regen: 0, Shield: 20, IdSourceCombatParticipant: 17, IdTargetCombatParticipant: 19, IdCombatTurn: 9 },
+      { IdCombatAction: 10, Damage: 30, Regen: 0, Shield: 0, IdSourceCombatParticipant: 18, IdTargetCombatParticipant: 20, IdCombatTurn: 10 },
+      { IdCombatAction: 11, Damage: 10, Regen: 0, Shield: 0, IdSourceCombatParticipant: 21, IdTargetCombatParticipant: 23, IdCombatTurn: 11 },
+      { IdCombatAction: 12, Damage: 0, Regen: 10, Shield: 0, IdSourceCombatParticipant: 22, IdTargetCombatParticipant: 24, IdCombatTurn: 12 },
+      { IdCombatAction: 13, Damage: 15, Regen: 0, Shield: 0, IdSourceCombatParticipant: 25, IdTargetCombatParticipant: 27, IdCombatTurn: 13 },
+      { IdCombatAction: 14, Damage: 0, Regen: 20, Shield: 0, IdSourceCombatParticipant: 26, IdTargetCombatParticipant: 28, IdCombatTurn: 14 },
+      { IdCombatAction: 15, Damage: 20, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 15 },
+      { IdCombatAction: 16, Damage: 0, Regen: 0, Shield: 10, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 16 },
+      { IdCombatAction: 17, Damage: 25, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 17 },
+      { IdCombatAction: 18, Damage: 0, Regen: 30, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 18 },
+      { IdCombatAction: 19, Damage: 0, Regen: 0, Shield: 20, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 19 },
+      { IdCombatAction: 20, Damage: 30, Regen: 0, Shield: 0, IdSourceCombatParticipant: 29, IdTargetCombatParticipant: 30, IdCombatTurn: 20 }
     ]);
 
     await Adventurer.bulkCreate([
