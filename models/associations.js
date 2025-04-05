@@ -39,6 +39,7 @@ Region.hasMany(Place, { foreignKey: 'IdRegion' });
 Place.belongsTo(City, { foreignKey: 'IdCity' });
 Place.belongsTo(Region, { foreignKey: 'IdRegion' });
 Place.hasMany(Combat, { foreignKey: 'IdPlace' });
+Place.hasMany(Adventurer, { foreignKey: 'IdPlace' });
 Place.belongsToMany(Building, { through: BuildingPlace, foreignKey: 'IdPlace' });
 
 // Item associations
@@ -91,6 +92,7 @@ EquipedItem.belongsTo(Personage, { foreignKey: 'IdPersonage' });
 
 // Adventurer associations
 Adventurer.belongsTo(Personage, { foreignKey: 'IdPersonage' });
+Adventurer.belongsTo(Place, { foreignKey: 'IdPlace' });
 Adventurer.hasOne(Inventory, { foreignKey: 'IdAdventurer' });
 Adventurer.belongsToMany(Companion, { through: AdventurerCompanion, foreignKey: 'IdAdventurer' });
 

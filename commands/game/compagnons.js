@@ -71,7 +71,7 @@ Expérience : ${companion.Experience} / ${companion.Personage.Level.ExperienceRe
                     )
                     .setTimestamp();
 
-                await message.reply({ embeds: [companionsEmbed] });
+                await message.channel.send({ embeds: [companionsEmbed] });
             } else {
                 if (!adventurer) {
                     return message.reply('Vous n\'avez pas encore d\'aventurier.');
